@@ -46,10 +46,10 @@ router.get('/add-product', (req, res , next)=>{
 })
 
 router.get('/add-product/error', (req,res,next)=>{
-  res.render('./admin/add-product', {categories:categories, message:"error"});
+  res.render('/admin/add-product', {categories:categories, message:"error"});
 })
 router.get('/add-product/added', (req,res,next)=>{
-  res.render('./admin/add-product', {categories:categories, message:"added"})
+  res.render('../admin/add-product.ejs', {categories:categories, message:"added"})
 })
 router.post('/add-product', (req, res, next)=>{
     let form = new formidable.IncomingForm();
