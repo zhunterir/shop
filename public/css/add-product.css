@@ -1,0 +1,212 @@
+.form-add-product{
+    display: flex;
+    background-color: gainsboro;
+    flex-flow: row wrap;
+    align-items: center;
+    margin: auto;
+    max-width: 1000px;
+    box-shadow: 1px 1px  2px rgba(0, 0, 0, 0.322),-1px 1px  2px rgba(0, 0, 0, 0.322);
+    padding: 5px;
+
+}
+.form-add-product__btn-group{
+    border-top: 1px solid rgba(0, 0, 0, 0.507);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+.submit-btn{
+    background-color: gold;
+    margin: 20px;
+    min-width: 60px;
+    border: 1px solid gray;
+}
+.submit-btn:active{
+    background-color: rgb(180, 170, 110);
+}
+.cancel-btn{
+    border: 1px solid black;
+    margin: 20px;
+    min-width: 50px;
+    background-color: rgb(216, 112, 117);
+}
+.form-add-product__cell label{
+    font-weight: 700;
+    margin: 5px;
+}
+.form-add-product__cell{
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.507);
+}
+.form-add-product__input{
+    width: 70%;
+    max-width: 200px;
+    height: 2rem;
+    box-shadow: 1px 1px  2px rgba(0, 0, 0, 0.322),-1px 1px  2px rgba(0, 0, 0, 0.322);
+    padding: 3px;
+
+}
+
+/* preview  */
+.attach-img-btn{
+    background-color: rgb(89, 194, 226);
+    margin: 10px;
+    border: 1px solid gray;
+}
+#mirror{
+    box-shadow: 2px 2px 3px gray, -2px 2px 3px gray;
+    width: 150px;
+    height: 150px;
+}
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-btn-wrapper {
+    margin: 5px;
+}
+/* preview end */
+
+
+#id-category{
+    height: 2.5rem;
+    box-shadow: 1px 1px  2px rgba(0, 0, 0, 0.322),-1px 1px  2px rgba(0, 0, 0, 0.322);
+}
+.c-textarea{
+    margin: 2px;
+    box-shadow: 1px 1px  2px rgba(0, 0, 0, 0.322),-1px 1px  2px rgba(0, 0, 0, 0.322);
+}
+.form-add-product__more-info{
+    padding: 5px;
+    transition: height 300ms;
+    border-top: 1px solid rgba(0, 0, 0, 0.507);
+    width: 100%;
+}
+.moreInfo button{
+    width: 60px;
+    height: 50px;
+    margin: auto;
+    margin-top: 5px;
+}
+.moreInfo{
+    display: flex;
+    flex-flow: column wrap;
+    transition: opacity 300ms ease-in;
+}
+
+#pic-btn{
+    display: none;
+}
+
+.c-sm-50{
+    width: 50%;
+}
+.c-sm-100{
+    width: 100%;
+}
+.form-add-product__cell:first-of-type{
+    height: auto;
+    border: none;
+    position: relative;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+.more-info{
+    height: auto;
+    display: block;
+}
+.more-info-table{
+    border: 1px solid black;
+    margin: 10px;
+
+}
+.more-info-table__header{
+    font-weight: 600;
+    margin: 0px;
+    text-align: center;
+    background-color: yellowgreen;
+}
+.more-info-table .first-col{
+    padding: 0px;
+    flex-grow: 1;
+    width: 20%;
+}
+.more-info-table .third-col{
+    width: 20%;
+    flex-grow: 1;
+    padding: 0px;
+}
+.more-info-table .second-col{
+    padding: 0px;
+    width: 60%;
+    flex-grow: 1;
+    border-left:1px solid black;
+    border-right: 1px solid black;
+}
+.more-info-table__value{
+    padding: 5px;
+    margin: 0px;
+    background-color: rgba(255, 255, 255, 0.774);
+}
+.more-info-table__row{
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    border-bottom: 1px solid black;
+}
+.more-info-table .more-info-table__row:last-child{
+   border-bottom: 0;
+}
+.info-delete-btn{
+    margin:  2px auto;
+    display: block;
+    font-size: 0.75rem;
+    font-weight: bolder;
+    width: 50px;
+    text-align: center;
+    background-color: red;
+    color: white;
+}
+#id-image-invalid-text{
+    color: red;
+    position: absolute;
+    left: 0;
+    display: none;
+}
+@media screen and (min-width:600px){
+    .c-lg-50{
+        width: 50%;
+    }
+    .c-lg-100{
+        width: 100%;
+    }
+    .moreInfo{
+        margin: 2%;
+        flex: 0 0 200px;
+        flex-flow: column wrap;
+    }
+    .form-add-product__cell{
+        height: 60px;
+        padding: 10px;
+    }
+    #id-about-product{
+        height: auto;
+    }
+    .more-info{
+        height: auto;
+    }
+    #mirror{
+        width: 150px;
+        height: 200px;
+    }
+    .form-add-product > div:first-child{
+        flex-flow: row wrap;
+        align-items: flex-end;
+    }
+}

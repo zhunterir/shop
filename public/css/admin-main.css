@@ -1,0 +1,25 @@
+.admin-nav{
+    background-color: gainsboro;
+    width: 300px;
+    padding: 5px;
+}
+.admin-nav__categories{
+    display: flex;
+    flex-flow: column wrap;
+}
+.admin-nav__category-item{
+    text-decoration: none;
+    font-size: 1rem;
+    color: black;
+    padding:10px;
+    background-image: url('/public/images/left.png');
+
+}
+
+.admin-nav__category-item:hover, .admin-nav__category-item:active{
+    text-decoration: none;
+    background-color: rgb(148, 148, 235);
+}
+.admin-nav__categories-btn{
+    font-weight: bold;
+}

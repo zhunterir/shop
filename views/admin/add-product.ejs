@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/add-product.css">
+    <link rel="stylesheet" href="/css/admin-main.css">
+    <title>add-product</title>
+</head>
+<body>
+    <%- include('/shared/admin-nav', {'categories':categories}) %>
+    <form action="/admin/add-product" method="POST" class="form-add-product"  enctype="multipart/form-data">
+        <% if(message==='error'){ %>
+            <p style='color:red;font-weight:bold; background-color: rgb(255, 255, 255);padding: 10px; text-align: auto;'>دوباره امتحان کنید</p>
+            <% } else if(message==='added'){ %>
+                <p style='color:green;font-weight:bold; background-color: rgb(255, 255, 255);padding: 10px; text-align: auto; margin: auto;'> کالا با موفقیت اضافه شد  </p>
+        <% } %>
+        <div class="form-add-product__cell c-lg-100 c-sm-100">
+            <img src=""class="pic-preview" id="mirror" alt="">
+            <div class="upload-btn-wrapper">
+                <button class="btn attach-img-btn" type="button" onclick="trigger();">افزودن عکس</button>
+                <input type="file" id="pic-btn" onchange="preview(this);" accept=".jpg, .jpeg, .png, .gif" name="picture" >
+            </div>
+            <span id='id-image-invalid-text'>عکس با فرمت های jpeg , jpg, png یا gif مجاز می باشد</span>
+        </div>
+        <div class="form-add-product__cell c-lg-50 c-sm-100">
+            <label for="id-title">عنوان: </label>
+            <input type="text" name="title" class="form-add-product__input" maxlength="150" id="id-title" required>
+        </div>
+        <div class="form-add-product__cell c-lg-50 c-sm-100">
+            <label for="id-category">دسته بندی: </label>
+            <select name="category" id="id-category">
+                <option value=" ">---</option>
+                <% for (let category of categories){ %>
+                    <option value="<%=category%>"><%= category %></option>
+                <% } %>
+            </select>
+        </div>
+    
+        <div class="form-add-product__cell c-lg-50 c-sm-100">
+            <label for="id-price">قیمت: </label>
+            <input type="text" maxlength="150" class="form-add-product__input" required id="id-price" name="price">
+            <span style="margin-right: 5px;"> تومان </span>
+        </div>
+        <div class="form-add-product__cell c-lg-50 c-sm-100">
+            <label for="id-count">تعداد: </label>
+            <input type="text" maxlength="150" class="form-add-product__input"  id="id-count" name="count" required>
+        </div>
+        <div class="form-add-product__cell c-lg-100 c-sm-100">
+            <label for="id-sale">تخفیف: </label>
+            <input type="text" maxlength="150" class="form-add-product__input"  id="id-sale" name="sale" >
+        </div>
+        <div id="id-about-product" class="form-add-product__cell c-lg-100 c-sm-100">
+            <label for="id-about"  >درباره محصول: </label><br>
+            <textarea name="about" id="id-about" cols="30" rows="4" class="c-textarea"></textarea>
+        </div>
+        <div class="more-info form-add-product__cell c-sm-100 c-lg-100">
+            <div>
+                <span class="form-add-product__label">مشخصات: </span><br>
+                <span class="more-info__label">عنوان: </span>
+                <input type="text" maxlength="50" id="info-title">
+                <span class="more-info__label">مقدار: </span>
+                <input type="text" maxlength="100" id="info-value">
+                <button id="add-info-btn" class="btn" type="button" onclick="addInfo();">اضافه کردن</button>
+            </div>
+            <div class="more-info-table">
+                <div class="more-info-table__row">
+                    <div class="more-info-table__header first-col">عنوان</div>
+                    <div class="more-info-table__header second-col">مقدار</div>
+                    <div class="more-info-table__header third-col">-</div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="captcha" value="">
+        <div class="form-add-product__btn-group">
+            <button class="btn submit-btn" type="submit">ذخیره</button>
+            <a href="/admin">
+                <button class="btn cancel-btn">لغو</button>
+            </a>
+        </div>
+   </form>
+    <script src="/js/add-product.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
+

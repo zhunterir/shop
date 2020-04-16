@@ -1,0 +1,10 @@
+<nav class="admin-nav">
+    <a href="/admin/add-product" class="admin-nav__a <% path==='add-product'? active:'' %>">افزودن کالا</a>
+    <span class="admin-nav__categories-btn" onclick='showCategories();'>لیست کالاها</span>
+    <div class="admin-nav__categories">
+        <a href="admin/products?category=all" class="admin-nav__category-item">مشاهده همه</a>
+        <% for (let cat of categories){ %>
+            <a href="admin/products?category=<%=cat%>" class="admin-nav__category-item"><%= cat %></a>
+        <% } %>
+    </div>
+</nav>
