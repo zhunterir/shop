@@ -1,0 +1,231 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/sign_up.css">
+</head>
+<body>
+    <article class="signup-form">
+        <form class="flex-container-v "action="/user/update" method="POST">
+            <header class="align-center"><h1>تغییر اطلاعات حساب کاربری</h1></header>
+            <label for="phone-number">: شماره موبایل</label>
+            <input type="text" id="phone-number" name="phone" maxlength="11">
+            <label for="pass">: کلمه عبور</label>
+            <input type="password" id="pass" name="password" maxlength="15">
+            <label for="re-pass">: تکرار کلمه عبور</label>
+            <input type="password" id="re-pass"  name="repassword" maxlength="15">
+            <label for="id">: id</label>
+            <input type="text" id="id"  name="id">
+            <input id="submit-btn" type="submit" value="تایید">
+        </form>
+    </article>  
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/update.css">
+    <link rel="stylesheet" href="order-info.css">
+    <link rel="stylesheet" href="orders.css">
+    <script src="https://kit.fontawesome.com/cc6ed6428a.js" crossorigin="anonymous"></script>
+    <title>Document</title>   
+    
+</head>
+<body>
+    <div id="main"class="d-flex flex-wrap ">
+        <aside class= "d-flex flex-column main-aside sm-12">
+            <section class="d-flex flex-column text-center nav">
+                <img id="prof-pic"src="statics/profile.png"alt="prof">
+                <p>محمد</p>
+                <p>09371123327</p>
+                <div class="d-flex flex-row-wrap profile-nav__account-btns" style="margin-bottom: 0.75rem;">
+                    <a href="#" class="btn btn-warning">خروج از حساب</a>
+                    
+                </div>
+            </section>
+            <section class="d-flex flex-column nav" style="margin-top: 0.5rem">
+                <a href="#"> مشاهده پروفایل</a>
+                <a href="#">سفارشات</a>
+                <a href="#">تغییر رمز</a>
+                <a href="#">پیغام ها</a>
+            </section>
+        </aside>
+        <section class="profile-edit">
+            <form  class="d-flex flex-column  content sm-12" action="/user/update" method="POST">
+                <header style="margin-bottom: 2rem;"><h3>ویرایش اطلاعات</h3></header>
+                <div class="d-flex flex-row flex-wrap">
+                    <label for="firstName" class="ml-auto ">نام</label>
+                    <input type="text" class="text-right" id="firstName" name="firstName" maxlength="50" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="lastName" class="ml-auto">نام خانوادگی</label>
+                    <input type="text" id="lastName" class="text-right" name="lastName" maxlength="50" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="phone" class="ml-auto">شماره موبایل</label>
+                    <input type="text" id="phone" class="text-left"name="phone" maxlength="12" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="password" class="ml-auto">رمز عبور</label>
+                    <input type="text" id="password" class="text-left"name="password" maxlength="12" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="melliCode" class="ml-auto">کد ملی</label>
+                    <input type="text" id="melliCode" class="text-left"name="meliCode" maxlength="10" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="address" class="ml-auto">آدرس</label>
+                    <input type="text" id="address" name="address" maxlength="150" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="postalCode" class="ml-auto">کدپستی</label>
+                    <input type="text" id="postalCode" name="postalCode" maxlength="150" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="email" class="ml-auto">ایمیل</label>
+                    <input type="email" id="email" class="text-left" name="email" maxlength="100" >
+                </div>
+                <div class="d-flex flex-wrap">
+                    <label for="id" class="ml-auto">شناسه</label>
+                    <input type="text" id="id" class="text-left" name="id" >
+                </div>
+                <div class="d-flex flex-row justify-content-center" style="margin-top: 20px;">
+                    <input type="submit"class="btn btn-primary"value="ثبت اطلاعات کاربری"style="margin-right: 10px;">
+                    <a style="display: block;"href="#" class="btn btn-secondary">انصراف</a>
+                </div>
+            </form>
+        </section>
+        <section class="o-page-content">
+            <div class="order-nav">
+                <div class="order-nav__right">
+                    <h4 class="order-nav__info">y78</h4>
+                    <a class="order-nav__back" href="#">
+                        بازگشت
+                        <i class="fas fa-chevron-left order-nav__back-btn" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <a class="order-nav__invoice"href="#">
+                    <button class="btn btn-warning order-nav__invoice-btn">مشاهده فاکتور</button>
+                </a>
+            </div>
+            <div class="order-address">
+                <div class="order-address__row">
+                    <div class="order-address__col">
+                            <span class="order-address__label">نام تحویل گیرنده:</span>
+                            <span class="order-address__value">تهران</span>
+                        </p>    
+                    </div> 
+                    <div class="order-address__col">
+                            <span class="order-address__label">شماره تماس:</span>
+                           <span class="order-address__value">938132453624</span>
+                        </div>
+                    </div>
+                    <div id="price" class="order-address__row">
+                        <div class="order-address__col">
+                            <span class="order-address__label">بازه زمانی ارسال:</span>
+                            <span class="order-address__value">-</span>
+                            <a href="#" class="order-address__change-send-time ">
+                                <button class="order-address__change-send-time-btn  btn  btn-warning">تغییر زمان ارسال</button>
+                            </a>
+                        </div>
+                        <div class="order-address__col">
+                            <span class="order-address__label">هزینه ارسال:</span>
+                            <span class="order-address__value">-</span>
+                        </div>
+                    </div>
+                    <div class="order-address__row">
+                        <div class="order-address__col">
+                            <span class="order-address__label">مبلغ قابل پرداخت:</span>
+                        <span class="order-address__value">-</span>
+                        
+                    </div>
+                        <div class="order-address__col">
+                            <span class="order-address__label">مبلغ کل:</span>
+                            <span class="order-address__value">-</span>
+                        </div>
+                </div>
+                <div class="order-address__row ">
+                    <div class="order-address__col">
+                            <span class="order-address__label">آدرس تحویل گیرنده:</span>
+                            <span class="order-address__value">تهران</span>
+                            <a href="#" class="order-address__change " class="order-address__change-btn">
+                                <button class="order-address__change-btn  btn  btn-warning">تغییر آدرس گیرنده</button>
+                            </a>
+                    </div>
+                    <div class="order-address__col">
+                        <span class="order-address__label">تاریخ  ثبت سفارش:</span>
+                        <span class="order-address__value">1</span>
+                    </div>
+                </div>
+            </div>
+             
+
+             <div class="mob-orders">
+                <div class="mob-orders-nav">
+                    <h2 class="mob-orders-nav__title">سفارش های من</h2>
+                    <a class="mob-orders-nav__back" href="#">بازگشت
+                        <i class="fas fa-chevron-left order-nav__back-btn" aria-hidden="true"></i>
+                    </a></span>
+                </div>
+                <article class="mob-order-table">
+                    <div class="mob-order-table__cell">
+                        <span>234152532</span>
+                        <span class="mob-order-table__payment" data-paymentStat="ok">پرداخت موفق</span>
+                        <a href="#" class="mob-order-table__show-detail">
+                            <button class="btn btn-warning ">جزئیات</button>
+                        </a>
+                    </div>
+                    <div class="mob-order-table__cell">
+                        <span class="mob-order-table__label">تاریخ ثبت سفارش</span>
+                        <span class="mob-order-table__value">8 بهمن</span>
+                    </div>
+                    <div class="mob-order-table__cell">
+                        <span class="mob-order-table__label">مبلغ قابل پرداخت</span>
+                        <span class="mob-order-table__value">4564 تومان</span>
+                    </div>
+                    <div class="mob-order-table__cell">
+                        <span class="mob-order-table__label">مبلغ کل</span>
+                        <span class="mob-order-table__value">134214 تومان</span>
+                    </div>
+                </article>
+            </div>
+        </section> 
+        <div class="content sm-12">
+            <header style="margin-bottom: 2rem;"><h3>اطلاعات شخصی</h3></header>
+            <div>
+                <h5 >نام و نام خانوادگی</h5>
+                <p class="dotted-heading">محمد محمدنسب</p>
+            </div>
+            <div>
+                <h5 >شماره موبایل</h5>
+                <p class="dotted-heading">-</p>
+            </div>
+            <div>
+                <h5>کد ملی</h5>
+                <p class="dotted-heading">-</p>
+            </div>
+            <div>
+                <h5> آدرس</h5>
+                <p class="dotted-heading">-</p>
+            </div>
+            <div>
+                <h5>: ایمیل</h5>
+                <p class="dotted-heading">mmn13755@gmail.com</p>
+            </div>
+            <a style="display:block" href="#" class="btn btn-danger m-auto">ویرایش اطلاعات</a>
+        </div>
+        <div>
+
+        </div>
+    </div>
+    <script src="account.js"></script>
+    <script src="statics/js/bootstrap.min.js"></script>
+</body>
+</html>

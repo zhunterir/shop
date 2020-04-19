@@ -1,0 +1,113 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+.receiver-info .row div{
+    border: 1px solid black;
+}
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    direction: rtl;
+    text-align: right;
+    background:radial-gradient(rgb(150, 187, 255),rgb(162, 184, 245));
+}
+table, th,td{
+    border: 1px solid black;
+    background-color: rgb(174, 252, 58);
+}
+th, td{
+    text-align: center;
+    padding: 0.75em;
+}
+span.caption{
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+span.heading{
+    display: block;
+    margin-left: auto;
+    color: rgba(0, 0, 0, 0.678);
+}
+.tabs a{
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.dotted-heading{
+    margin-bottom: 20px;
+    border-bottom: 1px dotted purple;
+    padding: 20px 0px;
+}
+.main-aside{
+    width: 200px;
+    margin: 2px 2%;
+    text-decoration: none;
+}
+.profile-nav__account-btns{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+#prof-pic{
+    margin:7px auto; 
+    margin-bottom: 10px; 
+    border:1px solid black;
+    width: 50%;
+}
+.nav a {
+    padding: 10px;
+    color:black;
+}
+.nav a:hover{
+    background-color: orange;
+    color:rgb(0, 0, 0);
+    text-decoration: none;
+}
+aside > section{
+    border:1px solid rgba(0, 0, 0, 0.4);
+    background-color: white;
+    box-shadow: 1px 1px 3px gray;
+}
+
+.profile-edit{
+    background-color: white;
+    padding: 2%;
+    margin: 1px 2%;
+    border:1px solid rgba(0, 0, 0, 0.199);
+   
+}
+form > div{
+    justify-items: center;
+    margin-bottom: 30px;
+}
+form div:last-child *{
+    font-size: 1.25rem;
+}
+
+form input[type="text"], form input[type="email"]{
+    border-radius: 1ex;
+    max-width: 100%;
+    padding: 5px;
+    border: 2px solid gray;
+}
+@media only screen and (max-width:500px){
+    #prof-pic {
+       width: 30%;
+    }
+    .main-aside{
+        width: 96%;
+    }
+    .profile-edit{
+        width: 96%;
+    }
+    #main{
+        flex-flow: column wrap;
+    }
+    
+    aside > section{
+        text-align: center;
+    }
+}

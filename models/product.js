@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require("joi");
 
 let productSchema =  new mongoose.Schema({
     id: {type:String, default:'', required:true},

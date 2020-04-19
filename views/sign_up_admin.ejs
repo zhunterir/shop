@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/sign_up.css">
+</head>
+<body>
+    <article class="signup-form">
+        <form class="flex-container-v "action="/admin/register" method="POST">
+            <header class="align-center"><h1>ایجاد حساب کاربری جدید برای مدیر</h1></header>
+            <label for="username">: نام کاربری</label>
+            <input type="text" id="username" name="username" >
+            <label for="password">: کلمه عبور</label>
+            <input type="password" id="password" name="password" maxlength="15">
+            <label for="repassword">: تکرار کلمه عبور</label>
+            <input type="password" id="repassword"  name="repassword" maxlength="15">
+            <label for="email">: پست الکترونیکی</label>
+            <input type="text" id="email"  name="email">
+            <input id="submit-btn" type="submit" value="تایید">
+        </form>
+    </article>  
+</body>
+</html>

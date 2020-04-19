@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>result</title>
+    <style>
+        .main{
+            width: 40%;
+            height: 150px;
+            background-color: rgb(243, 243, 243);
+            margin: auto;
+            text-align: center;
+            line-height: 150px;
+            margin-top: 0;
+            border-radius: 3px;
+            box-shadow: 1px 1px 7px 1px gray;
+            transition-property: all;
+            transition-duration: 1s;
+            opacity: 0;
+        }
+        .result{
+            color: rgb(139, 138, 138);
+            font-weight: bold;
+            font-size: larger;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+        <div class="main" id="main">
+            <div class="result"><%= result %></div>
+        </div>
+
+        <script>
+            let main = document.getElementById("main");
+            setTimeout(()=>{
+                main.style.opacity = "1";
+                main.style.marginTop = "50px";
+            } , 1000)
+        </script>
+        
+</body>
+
+</html>
