@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/admin-main.css">
+    <title>settings</title>
+</head>
+<body>
+    <div class="page">
+        <%- include('./admin-nav', {'categories':categories, 'path': path}) %>
+        <main class='main-content'>
+            <% if (error!=''){ %>
+                <h3 style="color:red; background-color: white;"><%= error %></h3>
+           <% } %>
+            <% if (succeed) { %>
+                <h3 style="color:greenyellow;background-color:white;"><%= succeed %></h3>
+            <% } %>
+            <div>افزودن</div>
+            <div class="c-action-drop-down">
+                <% for (let cat of categories) { %>      
+                    <div class="c-action-drop-down-item">
+                        <span class="c-action-drop-down__label"><%= cat %></span>
+                        <a href="/admin/settings/delete-category/<%=cat%>" class="btn c-action-drop-down__btn">حذف</a>
+                    </div>
+                <% } %>
+            </div>
+        </main>
+    </div>
+    <script src="/js/jquery-slim.js"></script>
+</body>
+</html>

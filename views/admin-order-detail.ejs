@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/admin-order-detail.css">
+    <link rel="stylesheet" href="/css/admin-main.css">
+    <link rel="stylesheet" href="/css/jspc-royal_blue.css">
+    <script type="text/javascript" src="/js/js-persian-cal.min.js"></script>
+    <title>سفارش</title>
+</head>
+<body>
+    <%- include('./admin-nav', {'categories':categories, 'path': ''}) %>
+    <main class='main-content'>
+        <div class="p-3 border-bottom">
+            <div class="order-receiver-info border-bottom">
+                <div class=" order-header pb-1 d-flex flex-column flex-md-row border-bottom">
+                    <div class="pl-4 py-2">
+                        <span class="text-secondary">تاریخ ثبت سفارش: </span><span><%= order.orderDateStr %></span>
+                    </div>
+                    <div class="pl-4 py-2">
+                        <span class="text-secondary">کد سفارش: </span><span><%= order.orderNo %></span>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-wrap flex-md-row ">
+                    <div class="pl-4 py-2">
+                        <span class="text-secondary">تحویل گیرنده: </span><span><%= order.receiver.name %></span>
+                    </div>
+                    <div class="pl-4 py-2">
+                        <span class="text-secondary">شماره تماس:</span><span><%= order.receiver.mobile %></span>
+                    </div>
+                    <div class="pl-4 py-2">
+                        <span class="text-secondary">کد ملی: </span><span><%= order.receiver.melli %></span>
+                    </div>
+                    <div class="w-100 py-2"><span class="text-secondary">نشانی ارسال: </span><span><%= order.receiver.address %></span></div>
+                    <div class="w-100 py-2"><span class="text-secondary">کد پستی: </span><span><%= order.receiver.postalCode %></span></div>
+                    <div class="w-100 py-2"><span class="text-secondary">بازه ی زمانی ارسال: </span> <%= order.preferredDate %></div>
+                </div>
+            </div>
+            <div class="d-flex order-price flex-md-row flex-column">
+                <div class="py-2 pl-4"><span class="text-secondary">مبلغ کل: </span><span><%= order.totalCost %></span></div>
+                <div class="py-2 pl-4"><span class="text-secondary">هزینه ارسال: </span><span> <%= order.deliveryCost %></span></div>
+                <div class="py-2 pl-4"><span class="text-secondary">مبلغ قابل پرداخت: </span><span> <%= order.payable %></span></div>
+                <div class="py-2 d-flex">
+                    <div class="order-stat font-weight-bold  <%=order.deliveryStat%>-text" >
+                        <%= order.deliveryStat=='delivered'?'تحویل شده در '+ order.deliveryDateStr :order.deliveryStat=='pending'?'در حال پردازش':'لغو شده'  %> 
+                    </div>
+                    <div class="stats-tools-top-wrapper mr-3">
+                        <button id="changeDeliveryStatBtn" class="btn btn-light mr-auto d-block p-1">
+                        <span class="fa fa-edit"></span>
+                        </button>
+                        <input type="text" style="display: none;" id="statsToolsIn">
+                        <div id="statsToolsWrap" style="display: none;" class="stats-tools-wrapper">
+                            <div class="stats-tool p-1 border">
+                                <a href="" data-target="<%= order.deliveryStat =='delivered'?'':'#tahvilModal'%>" data-toggle="modal" class="d-block py-1 <%= order.deliveryStat=='delivered'?'disabled-link':'' %>">
+                                    تغییر به تحویل شده
+                                </a>
+                                <a href="" data-target="<%= order.deliveryStat!=='pending'?'#pendingModal':'' %>" data-toggle="modal" class="d-block py-1 <%= order.deliveryStat=='pending'?'disabled-link':'' %>">
+                                    تغییر به در حال پردازش 
+                                </a>
+                                <a href="" data-toggle="modal" data-target="<%= order.deliveryStat!='cancelled'?'#cancelledModal':'' %>" class="d-block py-1 <%= order.deliveryStat=='cancelled'?'disabled-link':'' %>">
+                                    تغییر به لغو شده
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="order-items-detailed p-3">
+            <% for (let i=0; i< order.items.length;i+=1) {%>
+            <div class=" order-item">
+                <div class="pb-3">مرسوله <%= i+1 %> از <%= order.items.length %></div>
+                <div class="d-flex">
+                    <div>
+                        <a href="">
+                            <img class="order-img" src = "<%= order.items[i].url %>" alt="">
+                        </a>
+                    </div>
+                    <div>
+                        <div class="d-flex py-1"><%= order.items[i].title %></div>
+                        <div class="py-1">برند: <%= order.items[i].brand %></div>
+                        <div class="py-1">رنگ: <%= order.items[i].color %></div>
+                        <div class="py-1"><%= order.items[i].count %> عدد</div>
+                        <div class="py-1 d-none d-md-block">قیمت واحد: <%= order.items[i].unitCost %> تومان</div>
+                        <div class="py-1">قیمت کل <%= order.items[i].totalCost %> تومان</div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+    <div id="tahvilModal" class="modal modal-loading fade" tabindex="-1" role="dialog" aria-labelledby="tahvilModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ثبت وضعیت تحویل</h5>
+                    <button type="button" class="close mr-auto px-2 py-3 ml-0" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/orders/changeToDelivered" method="POST">
+                    <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tahvilDateIn">تاریخ تحویل</label>
+                            <br>                           
+                            <input id="tahvilDateIn" name="date" type="text" required pattern="^\d\d\d\d/\d{1,2}/\d{1,2}$" class="form-input pdate">                           
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">ثبت</button>
+                    </div>
+                </form> 
+            </div> 
+        </div>                                        
+    </div>
+    <div id="pendingModal" class="modal modal-loading fade" tabindex="-1" role="dialog" aria-labelledby="pendingModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ثبت وضعیت در حال پردازش</h5>
+                    <button type="button" class="close mr-auto px-2 py-3 ml-0" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/orders/changeToPending/" method="POST">
+                    <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
+                    <div class="modal-body">
+                        <p>آیا از تغییر سفارش به وضعیت در حال پردازش مطمئنید؟</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">ثبت</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary">لغو</button>
+                    </div>
+                </form>  
+            </div> 
+        </div>                                       
+    </div>
+    <div id="cancelledModal" class="modal modal-loading fade" tabindex="-1" role="dialog" aria-labelledby="cancelledModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ثبت وضعیت لغو شده</h5>
+                    <button type="button" class="close mr-auto px-2 py-3 ml-0" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/orders/changeTocancelled/" method="POST">
+                    <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
+                    <div class="modal-body">
+                        <p>آیا از تغییر سفارش به وضعیت لغو شده مطمئنید؟</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">ثبت</button>
+                        <button type="button" data-target="#cancelledModal" data-toggle="modal" class="btn btn-secondary">لغو</button>
+                    </div>
+                </form>  
+            </div> 
+        </div>                                       
+    </div>
+    <script src="/js/jquery-slim.js"></script>
+    <script src="/js/admin-order-detail.js"></script>
+    <script src="/js/bootstrap.min4.5.js"></script>
+    <script type="text/javascript">
+        var objCal = new AMIB.persianCalendar('tahvilDateIn');
+    </script>
+</body>
+</html>

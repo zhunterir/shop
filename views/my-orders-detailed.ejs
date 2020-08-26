@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <title>سفارش های من</title>
+</head>
+<body>
+    <%- include("./profile-aside.ejs") %>
+    <main class=" border profile-main orders-detailed-section">
+        <div class="d-flex flex-column flex-md-row border-bottom p-3">
+            <div class="ml-3 font-weight-bold">جزئیات سفارش</div>
+            <div>9 بهمن 98</div>
+            <div class="mx-2 d-none d-md-block text-secondary">|</div>
+            <div>wwrew</div>
+        </div>
+        <div >
+            <div class="p-3 border-bottom">
+                <div class="order-receiver-info border-bottom">
+                    <div class="d-flex flex-column flex-wrap flex-md-row ">
+                        <div class="pl-4 py-2">
+                            <span class="text-secondary">تحویل گیرنده: </span><span>محمدمحمدنسب</span>
+                        </div>
+                        <!-- <div class="text-secondary mx-3 d-none d-md-block">|</div> -->
+                        <div class="pl-4 py-2">
+                            <span class="text-secondary">شماره تماس:</span><span>-30214</span>
+                        </div>
+                        <div class="w-100 py-2"><span class="text-secondary">نشانی ارسال: </span><span>خیابان آزادی، کوچه توحید</span></div>
+                        <div class="w-100 py-2"><span class="text-secondary">بازه ی زمانی ارسال: </span>پنج شنبه 9 تا 12</div>
+                    </div>
+                </div>
+                <div class="d-flex order-price flex-md-row flex-column pt-3">
+                    <div class="py-2 pl-4"><span class="text-secondary">مبلغ کل: </span><span> 2500 تومان</span></div>
+                    <div class="py-2 pl-4"><span class="text-secondary">هزینه ارسال: </span><span> 1000 تومان</span></div>
+                    <div class="order-stat font-weight-bold py-2" data-stat="delivered">تحویل شده</div>
+                </div>
+            </div>
+            <div class="order-items-detailed p-3">
+                <div class=" order-item">
+                    <div class="pb-3">مرسوله 1 از 1</div>
+                    <div class="d-flex">
+                        <div>
+                            <a href="">
+                                <img class="order-img" src="/product-images/pensample1.jpg" alt="huh">
+                            </a>
+                        </div>
+                        <div class="small">
+                            <div class="d-flex py-1">ghalam</div>
+                            <div class="py-1">برند: نوبهار</div>
+                            <div class="py-1">25 عدد</div>
+                            <div class="py-1 d-none d-md-block">قیمت واحد: 2000 تومان</div>
+                            <div class="py-1">قیمت کل: 100000 تومان</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+    </main> 
+    
+</body>
+</html>

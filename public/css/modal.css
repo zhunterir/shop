@@ -1,0 +1,53 @@
+.modal-input , .register-input, .forgotPassInput{
+    margin-bottom: 8px;
+    padding: 0 8px;
+    color: #444;
+    background-color: #fff;
+    border: 1px solid rgb(214, 212, 212);
+    border-radius: 5px;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.modal-error{
+    color: red;
+    font-size: 0.75rem;
+}
+.valid-input{
+    border: 1px solid rgb(214, 212, 212);
+}
+.error-input{
+    outline: none !important;
+    box-shadow: none;
+    border: 1px solid red;
+}
+button[id~="Submit"]{
+    padding: 1.5rem;
+}
+#passRecoverBtn{
+    cursor: pointer;
+    color: #007bff;
+}
+.signin-modal{
+    max-width: 400px;
+}
+#haveAccountBtn{
+    cursor: pointer;
+}
+.close span{
+    font-size: 1.75rem;
+
+}
+#createAccountBtn{
+    cursor: pointer;
+}
+
+.close:hover, .close:focus{
+    color: red;
+}
+#mobile-register:invalid{
+    border: 1px solid red;
+    transition : all 0.3 ease
+}
+/* .modal-input:invalid{
+    box-shadow: none;
+} */

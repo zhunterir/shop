@@ -1,0 +1,16 @@
+
+
+@font-face {
+    font-family: 'IRANSans(FaNum)';
+    src: url('IRANSansFaNum.eot');
+    src: url('IRANSansFaNum.eot?#iefix') format('embedded-opentype'),
+        url('IRANSansFaNum.woff2') format('woff2'),
+        url('IRANSansFaNum.woff') format('woff'),
+        url('IRANSansFaNum.ttf') format('truetype'),
+        url('IRANSansFaNum.svg#IRANSansFaNum') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.iraniansans{
+	font-family: 'IRANSans(FaNum)' !important;
+}

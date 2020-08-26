@@ -3,17 +3,19 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const bycrypt = require("bcrypt");
 const Joi = require("joi");
-//const pug = require('pug');
 const user = require('./controllers/user.js');
 const admin = require('./controllers/admin.js');
-
-
+const mainRouter = require('./controllers/main.js');
+const profileRouter = require("./controllers/profile.js");
+let session = require('express-session');
 var app = express();
-
-mongoose.connect('mongodb://localhost/server')
-    .then(()=>console.log("mongodb connected successfully...."))
-    .catch( err => console.error("mongodb connected failed opssss....!"))
-
+let mongoDBStore = require('connect-mongodb-session')(session);
+let sessionStore = new mongoDBStore({
+    uri: "mongodb://localhost/shopDB",
+    collection:'sessions'
+    ,expires: 60
+    
+});
 
 mongoose.set('useFindAndModify', false);
 
@@ -21,53 +23,22 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 app.set('view engine' , 'ejs');
 
-
 app.use(express.static(__dirname + '/public'));
-
-
+app.use(session({secret:'sdfwehwgqfq2f', resave:false, saveUninitialized:false, store: sessionStore}));
 app.use('/user' , user);
-
 app.use('/admin' , admin);
-
-
-
-app.listen(3000 , ()=>{
-    console.log("server is run on port 3000");
+app.use("/profile", profileRouter);
+app.use('/', mainRouter );
+mongoose.connect("mongodb://localhost/shopDB",{ useUnifiedTopology: true,useNewUrlParser: true })
+.then((result)=>{
+    console.log('connected');
+    app.listen(2000);
+}).catch(err=>{
+    console.log('error'); 
+    console.log(err); 
 })
-
-
-
-
-
-////////////////////////////////////////////////////mohammad
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const path  = require('path');
-// const mongoose= require('mongoose');
-// const fs = require('fs');
-// const usersController = require('./controllers/users');
-// const adminController = require('./controllers/admin');
-// let jsonParser = bodyParser.json();
-// let urlencoded =  bodyParser.urlencoded({extended:false});
-// const app= express();
-// app.set('view engine', 'ejs');
-// app.use(jsonParser);
-// app.use(urlencoded);
-// app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/admin', adminController);
-// app.use('/users', usersController);
-// app.use('/', (req, res, next)=>{
-//     res.send('Home page');
-// })
-// mongoose.connect("mongodb://localhost/nodjs",{ useUnifiedTopology: true,useNewUrlParser: true })
-// .then((result)=>{
-//     app.listen(3000);
-// }).catch(err=> 
-//     console.log(err)) 
-    
 
 
 

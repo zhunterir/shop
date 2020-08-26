@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <title>سفارش های من</title>
+</head>
+<body>
+    <%- include("./profile-aside.ejs") %>
+    <main class="border profile-main orders-section">
+        <div class="border-bottom  orders-title-wrapper p-3">
+            <span class="orders-title font-weight-bold">نشانی ها</span>
+        </div>
+        <div class="addresses-container p-3">
+            <div class="address-item border-bottom py-4" id="4332">
+                <div class="address-header pb-3 d-flex align-items-start">خیابان ازادی کوچه ق <button class="btn btn-light mr-auto"><span class="fa fa-trash" data-target="#4332"></span></button></div>
+                <ul class="address-list">
+                    <li class="small"><span class="fa fa-map"></span> تهران، تهران</li>
+                    <li class="small"><span class="fa fa-envelope"></span>13214342141</li>
+                    <li class="small"><span class="fa fa-phone"></span>09371123327</li>
+                    <li class="small"><span class="fa fa-user"></span>محمد محمدنسب</li>
+                </ul>
+                <span class="address-info" style='display: none;'>{"ostan":"tehran","city":"tehran", "postalAddress":"خیابان ازادی کوچه ق",
+                "pelak": "32", "vahed":"5", "postalCode": "111111111", "fname": "محمد", "lname": "محمدنسب", 
+                "melli":"1234543212", "mobile":"09371123327"}</span>
+                <a class="address-link" type="button" data-target="#4332" id="addrModalShow">ویرایش نشانی ></a>
+            </div>
+        </div>
+    </main> 
+    <div class="modal fade" id="editAddrModal" tabindex="-1" role="dialog" aria-labelledby="editPasswordModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">ویرایش نشانی</h5>
+              <button type="button" class="close mr-auto px-2 py-3 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body address-body">
+                    <form novalidate>
+                        <div class="form-row justify-content-around">
+                            <div class=" form-group col-12 col-sm-6 mb-3">    
+                                <label for="ostanIn">استان<span class="vertical-align-top">*</span></label>
+                               
+                                <select name="ostan" id="ostanIn" class="custom-select form-control">
+                                    <option selected value="">انتخاب استان</option>
+                                    <option value="tehran">tehran</option>
+                                    <option value="fiat">Fiat</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                                <span class="modal-error"> </span>
+                            </div>
+                            <div class="col-12 form-group col-sm-6">  
+                                <label for="cityIn">شهر<span class="vertical-align-top">*</span></label>
+                                <select name="city" id="cityIn" class="custom-select form-control">
+                                    <option selected value="">انتخاب شهر</option>
+                                    <option value="tehran">tehran</option>
+                                    <option value="fiat">Fiat</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <label for="postalAddress">
+                                    نشانی<span class="vertical-align-top">*</span>
+                                </label>  
+                                <input type="text" name="postalAddress" class="form-control" id="postalAddressIn">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12 col-sm-3">
+                                <label for="pelak">پلاک<span class="vertical-align-top">*</span></label>
+                                <input type="text" name="pelak" id="pelakIn" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                            <div class="form-group col-12 col-sm-3">
+                                <label for="vahed">واحد</label>
+                                <input type="text" name="vahed" id="vahedIn" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="postalCodeIn">کد پستی<span class="vertical-align-top">*</span></label>
+                                <input type="text" id="postalCodeIn" maxlength="10" name="postalCode" class="form-control">
+                                <div class="modal-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="receiverFirstName">نام گیرنده<span class="vertical-align-top">*</span></label>
+                                <input type="text" id="receiverFirstName" name="fname" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="receiverLastName">نام خانوادگی گیرنده<span class="vertical-align-top">*</span></label>
+                                <input type="text" id="receiverLastName" name="lname" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="receiverMelli">کد ملی گیرنده<span class="vertical-align-top">*</span></label>
+                                <input type="text" maxlength="10" id="receiverMelli" name="melli" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="receiverMobile">شماره موبایل گیرنده<span class="vertical-align-top">*</span></label>
+                                <input type="text" maxlength="11" id="receiverMobile" name="mobile" class="form-control">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="addrSubmit" type="button" class="btn btn-primary px-4">تایید و ثبت</button>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div> 
+    <div id="loadingModal" class="modal modal-loading fade" tabindex="-1" role="dialog" aria-labelledby="loadingModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-warning" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <script src="/js/jquery-slim.js"></script>
+    <script src="/js/bootstrap.min4.5.js"></script>
+    <script src="/js/my-addresses.js"></script>
+</body>
+</html>

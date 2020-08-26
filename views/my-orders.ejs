@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <title>سفارش های من</title>
+</head>
+<body>
+    <%- include('./profile-aside.ejs') %>
+    <main class="border profile-main orders-section">
+        <div class=" border-bottom  orders-title-wrapper p-3">
+            <span class="orders-title font-weight-bold">تاریخچه سفارشات</span>
+        </div>
+        <!-- <div class="orders-wrapper border p-3"> -->
+            <div class="orders-container p-3">
+                <div class="order border p-3">
+                    <div class= "d-flex pb-3 border-bottom flex-wrap order-header">
+                        <div class="order-info">8 بهمن 99</div>
+                        <!-- <div class="mx-2 text-secondary d-none d-md-block">|</div> -->
+                        <div class="order-info">w2e3rd</div>
+                        <!-- <div class="mx-2 text-secondary d-none d-md-block">|</div> -->
+                        <div class="order-info order-stat " data-stat="not-delivered">تحویل نشده</div>
+                        <!-- <div class="mx-2 text-secondary d-none d-md-block">|</div> -->
+                        <div class="order-info mr-md-3 "><span class="text-secondary">مبلغ کل : </span>1200 تومان</div>
+                        <a class="mr-auto pt-2" href="#">مشاهده جزییات ></a>
+                    </div>
+                    <div class="d-flex flex-wrap pt-3">
+                        <div class="">خودکار بیک لیوانی</div>
+                        <div class=" mx-2 text-secondary">|</div>
+                        <div>خودکار کنکو زرد</div>
+                    </div>
+                </div>  
+                    
+            </div>
+        <!-- </div> -->
+    </main>
+    
+</body>
+</html>

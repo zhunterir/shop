@@ -1,25 +1,111 @@
 .admin-nav{
-    background-color: gainsboro;
-    width: 300px;
-    padding: 5px;
-}
-.admin-nav__categories{
+    background-color: white;
+    width: 150px;
     display: flex;
-    flex-flow: column wrap;
+    right: 0;
+    top:0;
+    height: 100%;
+    position: fixed;
+    overflow-x: hidden;
+    flex-flow: column nowrap;
+    align-content: stretch;
+    box-shadow: 1px 1px 5px rgb(209, 209, 209);
 }
-.admin-nav__category-item{
+body{
+    background-color: #f5f5f5 !important;
+}
+
+.admin-nav-item{
     text-decoration: none;
-    font-size: 1rem;
     color: black;
-    padding:10px;
-    background-image: url('/public/images/left.png');
-
+    font-weight: bold;
+    transition: background-color 0.25s;
+    padding: 10px;
 }
-
-.admin-nav__category-item:hover, .admin-nav__category-item:active{
+.admin-nav-item:active, .admin-nav-item:hover{
+    background-color: gold;
+    color: black;
     text-decoration: none;
-    background-color: rgb(148, 148, 235);
 }
+
 .admin-nav__categories-btn{
     font-weight: bold;
+}
+.page{
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+}
+.main-content{
+    box-shadow: 1px 1px 5px rgb(209, 209, 209);
+    width: calc(100% - 150px - 5%);
+    margin-right: calc(150px + 2.5%);
+}
+.muted-price{
+    text-decoration: line-through;
+    color: red;
+}
+.sale-price{
+    font-size: 1.25rem;
+    color: green;
+}
+.product-card{
+    margin:auto;
+    width: 200px;
+    max-width: 100%;
+}
+.card-footer{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+.product-card-btn {
+    margin: 5px;
+}
+.product-card-img{
+    max-width: 95%;
+    margin:auto;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.admin-nav__orders li, .admin-nav__orders li:hover:active:visited {
+    color: black;
+    text-decoration: none;
+}
+@media only screen and (max-width:650px){
+    .page{
+        flex-flow: column wrap;
+    }
+    .admin-nav{
+        display: block;
+        width: inherit;
+        position: static;
+
+    }
+    .main-content{
+        width: 100%;
+        margin: 0;
+    }
+    .product-card{
+        margin: auto;
+        margin-top:100px;
+        width: 200px;
+    }
+    .card-footer{
+        padding: 5px;
+    }
+
+}
+@media only screen and (max-width:450px){
+    .card-body{
+        padding: 5px;
+    }
+    .product-card-btn{
+        padding: 5px;
+    }
+    .card-footer {
+        padding: 0px;
+    }
 }

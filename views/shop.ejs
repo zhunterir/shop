@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه</title>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/product-card.css">
+    <link rel="stylesheet" href="/css/slideshow.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    
+</head>
+<body>
+   <main class="site-main">
+        <% for (slideGroup of slideGroups) { %>
+            <% if (!slideGroup.prods) continue %>
+        <div class="c-slide-wrapper my-3">
+            <h4 class="c-slide-heading"><%= slideGroup.title %></h4>
+            <div class="c-slide" >
+                <div class="c-slide-inner">
+                    <% for(let product of slideGroup.prods) { %>
+                        <% if (!product) continue; %>    
+                        <a class="product-card-link   card product-card c-slide-item" href="/product/<%=product.id%>">
+                            <img src="<%= product.imgUrl %> " class="card-img-top " alt="Card image">
+                            <div class="card-body d-flex flex-column px-0 py-1">
+                                <p class="card-text "><%= product.title %></p>
+                                <p class="text-left mt-auto mb-0">
+                                    <% if (product.sale!=0) { %>
+                                        <span class="card-old-price"><%=product.price %></span>
+                                    <% } %>
+                                    <span class="card-new-price"><%= product.price - product.sale %> تومان</span>
+                                </p>
+                            </div>
+                        </a> 
+                        
+                        
+                        <% } %>
+                    </div>
+                </div>
+            <span  class="c-slide-prev-control">
+                <i class="fa fa-arrow-left c-slide-prev-btn" style="color: black;"></i>
+            </span>
+            <span  class="c-slide-next-control">
+                <i class="fa fa-arrow-right c-slide-next-btn" style="color:black;"></i>
+            </span>   
+        </div>
+        <% } %>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
+            Launch demo modal
+        </button>
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signInModalTitle">ثبت نام </h5>
+                        <button type="button" class="close mr-auto ml-0 p-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="container">
+                        <div class="modal-body">
+                            <ul>
+                                <li class="small">گذر واژه باید حداقل 6 حرفی باشد.</li>
+                            </ul>
+                            <div id="registerWarning" class="row mb-2 collapse c-warning">
+                                <div class="c-warning-header align-items-center px-2 d-flex w-100">
+                                    <span>هشدار </span>
+                                    <button class="close mr-auto ml-0 p-1" type="button" data-toggle="collapse" data-target="#registerWarning" aria-expanded="false" aria-controls="collapseExample">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div id="registerWarningBody" class="w-100 p-2">هشدار</div>
+                            </div>
+                            <form action="">
+                                <div class="row">
+                                    <input class="w-100 mb-3 p-2 modal-input valid-input"  name="fname" placeholder="نام" type="text" required>
+                                    <span class="modal-error"></span>
+                                </div>
+                                <div class="row mb-3">
+                                    <input class="w-100 p-2 modal-input valid-input"  name="lname" placeholder="نام خانوادگی" type="text" required>
+                                    <span class="modal-error"></span>
+                                </div>
+                                <div class="row mb-3">
+                                    <input class="w-100  p-2 modal-input valid-input" id="signUpPass" name="password" maxlength="20" placeholder="گذر واژه" type="password" required>
+                                    <span class="modal-error"></span>
+                                </div>
+                                <div class="row mb-3">
+                                    <input class="w-100 p-2 modal-input valid-input" id="signUpRePass" name="repassword" maxlength="20" placeholder="تکرار گذر واژه" type="password" required>
+                                    <span class="modal-error"></span>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" name="mobile" class="p-2 modal-input" id="mobile-register" pattern="^09\d+$" placeholder="موبایل"  maxlength="11" minlength="11" class="modal-input" required>
+                                        <span class="modal-error"></span>
+                                    </div>
+                                    <button type="button" id="registerCodeRequest" class="btn col-xs-12 col-sm-5 btn-dark code-request-btn mr-auto" disabled>ارسال کد فعال سازی</button>
+                                </div>
+                                <div  class="row">
+                                    <input  style="display:none" type="text" id="code-input" name="code" class="modal-input col-12 col-sm-6 p-2" maxlength="6" minlength="6" placeholder="کد فعال سازی" required>
+                                </div>
+                                <div class="row align-items-center">
+                                    <p>
+                                        <input id="ruleCheck" name="rule-accept" required type="checkbox" >
+                                        <strong class="mr-1">تمامی <a href="/store/قوانین و مقررات" > قوانین و مقررات</a> را می پذیرم</strong>
+                                    </p>
+                                </div>
+                                <div class="row mt-3">
+                                    <button class="btn btn-primary w-100" id="modal-submit-btn" type="submit" disabled>ثبت نام</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row">
+                            <a id="haveAccountBtn" class="py-3 w-100 bg-light text-center">
+                            حساب کاربری دارید؟
+                            </a>
+                        </div>
+                    </div>
+                        
+                </div>
+                    
+            </div>
+        </div>
+        
+        <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
+            <div class="modal-dialog signin-modal modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="signInModalTitle"> ورود </h5>
+                  <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="container">
+                    <div class="modal-body">
+                        <form action="" novalidate>
+                            <div class="row">
+                                <input class="w-100 mb-3 p-2 register-input" name="mobile" placeholder="موبایل" type="text" required>
+                            </div>
+                            <div class="row">
+                                <input class="w-100 mb-3 p-2 register-input" name="password" placeholder="گذر واژه" type="password" required>
+                            </div>
+                            <div class="row mb-2">
+                                <button id="signin-btn" class=" w-100 btn col-xs-12 btn-primary " >ورود</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <a id="passRecoverBtn" class="py-3 w-100 text-center">
+                            بازیابی  گذرواژه
+                        </a>
+                    </div>
+                    <div class="row">
+                        <a id="createAccountBtn" class="py-3 w-100 bg-light text-center">
+                            ایجاد حساب کاربری
+                        </a>
+                    </div>
+                    
+                
+                </div>
+                
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="forgotPassModal" tabindex="-1" role="dialog" aria-labelledby="forgotPassModal" aria-hidden="true">
+            <div class="modal-dialog signin-modal modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="forgotPassTitle"> فراموشی گذر واژه </h5>
+                  <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="container">
+                    <div class="modal-body">
+                        <p>شماره موبایلی که با آن ثبت نام کرده اید را وارد کنید.</p>
+                        <div class="row">
+                            <input class="w-100 mb-3  p-2 forgotPassInput" placeholder="موبایل" maxlength='11' id="forgotPassMobile" pattern="^09\d{9}$"  name="mobile" placeholder=" " type="text" required>
+                        </div>
+                        <div class="row mb-2">
+                            <button id="forgotPassCodeRequest" class=" w-100 btn col-xs-12 btn-dark " >ارسال کد فعال سازی</button>
+                        </div>
+                        <div  class="row mb-2">
+                            <input type="text" name="code" class="forgotPassInput p-2"  style="display: none" id="forgotPassCodeIn" placeholder="کد ارسالی" maxlength="5" minlength="5" required>
+                        </div>
+                        <div class="row">
+                            <button type="button" class="btn btn-primary w-100" id="passRecoverRequestBtn" disabled>درخواست بازیابی گذرواژه</button>
+                        </div>
+                    </div>
+                
+                
+                </div>
+                
+            </div>
+          </div>
+        </div>
+   </main>
+<script src="/js/jquery-slim.js"></script>
+<script src="/js/bootstrap.min4.5.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+<script src="/js/slideshow.js"></script>
+<script src="/js/main-modal.js"></script>
+</body>
+</html>

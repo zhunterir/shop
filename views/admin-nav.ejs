@@ -1,10 +1,11 @@
 <nav class="admin-nav">
-    <a href="/admin/add-product" class="admin-nav__a <% path==='add-product'? active:'' %>">افزودن کالا</a>
-    <span class="admin-nav__categories-btn" onclick='showCategories();'>لیست کالاها</span>
-    <div class="admin-nav__categories">
-        <a href="admin/products?category=all" class="admin-nav__category-item">مشاهده همه</a>
-        <% for (let cat of categories){ %>
-            <a href="admin/products?category=<%=cat%>" class="admin-nav__category-item"><%= cat %></a>
-        <% } %>
+    <a  href="/admin/add-product" class="admin-nav-item <% path==='add-product'? 'active':'' %>">افزودن کالا</a>
+    <a href="/admin/products" class="admin-nav__categories-btn admin-nav-item <% path==='products'? 'active':''%>">محصولات</a>
+    <a href="/admin/orders" class="admin-nav-item <%= path=='orders'? 'active':'' %>">سفارشات</a>
+        <!-- <% for (let cat of categories){ %>
+            <a href="admin/products?category=<%=cat%>" class="admin-nav__category-item "><%= cat %></a>
+        <% } %> -->
+    <div class="d-flex admin-nav__orders">
+      
     </div>
 </nav>

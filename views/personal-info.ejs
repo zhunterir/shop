@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <title>اطلاعات شخصی محمد محمدنسب</title>
+</head>
+<body>
+    <%- include("./profile-aside.ejs") %>
+    <main class=" border profile-main orders-section">
+        <div class=" border-bottom d-flex align-items-center orders-title-wrapper p-3">
+            <div class="orders-title font-weight-bold">اطلاعات شخصی</div>
+            
+        </div>
+        <div class="personal-info-container">
+            <div class="d-flex flex-wrap personal-row">
+                <div class="personal-cell d-flex align-items-center">
+                    <div>
+                        <div>نام و نام خانوادگی</div>
+                        <div class="text-secondary">محمدمحمدنسب</div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#editNameModal" class="btn pass-edit-btn btn-light mr-auto ml-2"><span class="fa fa-edit"></span></button>
+                </div>
+                <div class="personal-cell d-flex align-items-center">
+                    <div>   
+                        <div>شماره تلفن همراه</div>
+                        <div class="text-secondary">09371123327</div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#editMobileModal" class="btn pass-edit-btn btn-light mr-auto ml-2"><span class="fa fa-edit"></span></button>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap personal-row">
+                <div class="personal-cell d-flex align-items-center">
+                    <div>
+                        <div>پست الکترونیک</div>
+                        <div class="text-secondary">-</div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#editEmailModal" class="btn pass-edit-btn btn-light mr-auto ml-2"><span class="fa fa-edit"></span></button>
+                </div>
+                <div class="personal-cell d-flex align-items-center">
+                    <div>
+                        <div>
+                            <div>کد ملی</div>
+                            <div class="text-secondary">0019800037</div>
+                        </div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#editMelliModal" class="btn pass-edit-btn btn-light mr-auto ml-2"><span class="fa fa-edit"></span></button>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap personal-row">
+                <div class="personal-cell d-flex align-items-center">
+                    <div>
+                        <div>رمز عبور</div>
+                        <div>*</div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#editPasswordModal" class="btn pass-edit-btn btn-light mr-auto ml-2"><span class="fa fa-edit"></span></button>
+                </div>
+            </div>
+        </div>
+    </main> 
+    <div class="modal fade" id="editNameModal" tabindex="-1" role="dialog" aria-labelledby="editNameModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">نام و نام خانوادگی</h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                        <div class="row">
+                            <input id="nameIn"class="w-100 mb-3 p-2 modal-input valid-input" type="text" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row justify-content-end">
+                        <button id="nameSubmit" class="btn btn-primary px-4" disabled><span class="submitText">ثبت</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editMobileModal" tabindex="-1" role="dialog" aria-labelledby="editMobileModal" aria-hidden="true">
+        <div class="modal-dialog-centered modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">شماره تلفن همراه</h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                        <div class="row mb-3">
+                            <input id="mobileIn" maxlength="11" class="w-100 p-2 modal-input valid-input" type="text" pattern="^09\d{9}" required>
+                            <span class="modal-error" style="display: none;"></span>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="mobileSubmit" class="btn btn-primary px-4" disabled>ثبت</button>
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editEmailModal" tabindex="-1" role="dialog" aria-labelledby="editEmailModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">پست الکترونیک</h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                        <div class="row mb-3">
+                            <input id="emailIn" class="w-100  p-2 modal-input valid-input" type="email"  required>
+                            <span class="modal-error" style="display: none;"></span>
+                        </div>      
+                </div>
+                <div class="modal-footer">
+                    <button id="emailSubmit" class=" btn  btn-primary px-4" disabled>ثبت</button>
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editMelliModal" tabindex="-1" role="dialog" aria-labelledby="editCodeMelliModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">کد ملی</h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <input id="melliIn" class="w-100 p-2 modal-input valid-input" maxlength="10" minlength="10" type="text"  required>
+                        <span class="modal-error" style="display: none;"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="melliSubmit" class="btn btn-primary px-4" disabled>ثبت</button>
+
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog" aria-labelledby="editPasswordModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">رمز عبور</h5>
+                    <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="container">
+                    <div class="modal-body text-center">
+                        <ul>
+                            <li>رمز حداقل باید 6 حرفی باشد.</li>
+                        </ul>
+                        <div class="row mb-3">
+                            <div class="w-100">
+                                <div class="pb-2">رمز فعلی</div>
+                                <input type="password" id="currentPassIn" class="modal-input valid-input w-100 p-2">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="w-100">
+                                <div class="pb-2">رمز جدید</div>
+                                <input type="password" id="newPassIn" class="modal-input valid-input w-100 p-2">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="w-100">
+                                <div class="pb-2">تکرار رمز جدید</div>
+                                <input type="password" id="rePassIn" class="modal-input valid-input w-100 p-2">
+                                <span class="modal-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="passSubmit" class="btn btn-primary px-4" disabled>ثبت</button>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <div id="loadingModal" class="modal modal-loading fade" tabindex="-1" role="dialog" aria-labelledby="loadingModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-warning" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <script src="/js/jquery-slim.js"></script>
+    <script src="/js/bootstrap.min4.5.js"></script>
+    <script src="/js/personal-info.js"></script>
+</body>
+</html>

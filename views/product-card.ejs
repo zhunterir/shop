@@ -1,0 +1,18 @@
+
+
+<a class="product-card-link" href="/product/<%=product.id%>">
+        <div class="card product-card">
+            <img src="<%= product.imgUrl %>" class="card-img-top" alt="Card image">
+            <div class="card-body">
+                <p class="card-text"><%= product.title %> </p>
+                <p>
+                    <% if (product.sale!=0) { %>
+                        <span class="card-old-price"><%=produc.price %></span>
+                    <% } %>
+                    <span class="card-new-price"><%= product.price - product.sale %> تومان</span>
+                </p>
+            </div>
+        </div>
+</a>  
+</body>
+</html>

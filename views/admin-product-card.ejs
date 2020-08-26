@@ -1,0 +1,14 @@
+ <!-- must be wraped in destination in a card  -->
+ <div class="card product-card">
+
+     <img class="card-img-top product-card-img" src="<%= product.imgUrl %>" alt="Card image cap">
+     <div class="card-body product-card-body">
+         <h5 class="card-title "><%= product.title %></h5>
+         <p class="card-text text-left <%= product.sale!=0?' muted-price':'' %>"> <%= product.price+' ' %>تومان</p>
+         <p class="card-text text-left sale-price"><%= product.sale!=0? String(product.price - product.sale)+' تومان':'' %></p>
+     </div>
+     <div class="card-footer">
+         <a  a='/admin/products/<%= product.id%>' class="btn btn-info product-card-btn">مشاهده</a>
+         <a  a='/admin/products/edit/<%= product.id%>'class="btn btn-danger product-card-btn">ویرایش</a>
+     </div>
+ </div>
