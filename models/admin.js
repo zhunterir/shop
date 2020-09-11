@@ -26,8 +26,9 @@ function validateSignup(req){
 
 function validateSignin(req){
     const schema = {
-        username : Joi.string().min(5).max(255).required(),
-        password : Joi.string().min(5).max(255).required()
+        username : Joi.string().max(255).required(),
+        password : Joi.string().min(5).max(255).required(),
+        _csrf : Joi.string()
     };
     return Joi.validate(req , schema);
 }

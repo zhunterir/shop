@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.min4.css">
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/public.css">
     <link rel="stylesheet" href="/css/admin-main.css">
@@ -11,72 +12,90 @@
     <link rel="stylesheet" href="/css/admin-products.css">
     <title>محصولات</title>
 </head>
-<body>
-    <div class=" popup-disappear">
-        
-    </div>
-    <div class="page">
-        <%- include('./admin-nav', {'categories':categories, 'path': path}) %>
-        <main class='main-content'>
-            <% if (error!=''){ %>
-                <h3 style="color:red; background-color: white;"><%= error %></h3>
-            <% } %>
-            <% if (succeed) { %>
-                <h3 style="color:greenyellow;background-color:white;"><%= succeed %></h3>
-            <% } %>
-            <div class="filter-search container d-flex align-items-center">
-                <div class="d-flex category-filter align-items-center">
-                    <label for="category-select" class="mb-0">دسته بندی: </label>
-                    <select name="category-select" oninput="updateList(this)" class="category-select" id="category-select">
-                        <% if (listCategory) { %>
-                            <option value=""><%= listCategory %></option>
-                        <% } %>
-                        <option value="">همه محصولات</option>
-                        <% for (let cat of categories){ %>
-                            <% if (cat != listCategory) { %>
-                                <option value="<%=cat%>"><%=cat%></option> <% } %>
-                        <% } %>        
-                    </select>
-                </div>
-                <a class="btn btn-dark py-1 mr-1 list-update-btn " id="list-update-btn" href="/admin/products">بروز رسانی لیست</a>
-                <div class=" mr-auto search-utility">
-                    <input class="search-input" type="text" name="search-title" id="search-title" autocomplete="off" placeholder="جستجوی نام محصول">
-                    <div class="search-container">
-                    </div>
+<body> 
+    <%- include('./admin-nav', {'categories':categories, 'path': path}) %>
+    <main class='main-content p-3'>
+        <% if (error!=''){ %>
+            <h3 style="color:red; background-color: white;"><%= error %></h3>
+        <% } %>
+        <% if (succeed) { %>
+            <h3 style="color:greenyellow;background-color:white;"><%= succeed %></h3>
+        <% } %>
+        <div class=" border-bottom py-3">
+            <div class=" py-2 search-utility">
+                <input class="search-input form-input" type="text" name="search-title" id="search-title" autocomplete="off" placeholder=" نام محصول">
+                <div class="search-container">
                 </div>
             </div>
-            <table class="products-table container">
-                <thead>
-                    <tr class="products-table-row products-table-header">
-                        <th class="products-table-col ">کد کالا</th>
-                        <th class="products-table-col ">نام کالا</th>
-                        <th class="products-table-col "> موجودی</th>
-                        <th class="products-table-col ">قیمت</th>
-                        <th class="products-table-col ">تخفیف</th>
-                        <th class="products-table-col ">قیمت نهایی</th>
-                        <th class="products-table-col ">.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% if (products){ %>
-                        <% for(let product of products) { %>
-                            <tr class="products-table-row">
-                                <td class="products-table-col"><%= product.id %></td>
-                                <td class="products-table-col"><%= product.title %></td>
-                                <td class="products-table-col"><%= product.count %></td>
-                                <td class="products-table-col"><%= product.price %></td>
-                                <td class="products-table-col"><%= product.sale %></td>
-                                <td class="products-table-col"><%= product.price - product.sale %></td>
-                                <td class="products-table-col "><a class="btn btn-dark" href="/admin/products/<%=product.id%>" class="product-view-btn">مشاهده</a>
-                                <a href="/admin/products/edit/<%= product.id %>" class="btn btn-dark">تغییر</a></td>
-                            </tr>
+            <div class="filter-search py-2 d-flex align-items-center">
+                <div class="category-filter align-items-center">
+                    <label for="category-select">دسته بندی: </label>
+                    <select name="category-select" oninput="updateList(this)" class="category-select custom-select" id="category-select">
+                        <option value="">همه محصولات</option>
+                        <%  for (let cat of categories) { %>
+                            <option value="<%= cat %>" <%= cat== options.listCategory?'selected': ''%> ><%= cat %></option>
+                                     
                         <% } %>
+                    </select>
+                </div>
+                <a class="btn btn-primary ark mr-2 list-update-btn " id="list-update-btn" href="/admin/products">بروز رسانی لیست</a>
+            </div>
+        </div>
+        <p class="text-center mt-3">صفحه  <%= options.page %></p>
+        <table class="products-table mx-auto">
+            <thead>
+                <tr class="products-table-row products-table-header">
+                    <th class="products-table-col ">کد کالا</th>
+                    <th class="products-table-col ">نام کالا</th>
+                    <th class="products-table-col "> موجودی</th>
+                    <th class="products-table-col ">قیمت</th>
+                    <th class="products-table-col ">تخفیف</th>
+                    <th class="products-table-col ">قیمت نهایی</th>
+                    <th class="products-table-col ">.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (products){ %>
+                    <% for(let product of products) { %>
+                        <tr class="products-table-row">
+                            <td class="products-table-col"><%= product.id %></td>
+                            <td class="products-table-col"><%= product.title %></td>
+                            <td class="products-table-col"><%= product.count %></td>
+                            <td class="products-table-col"><%= product.price %></td>
+                            <td class="products-table-col"><%= product.sale %></td>
+                            <td class="products-table-col"><%= product.price - product.sale %></td>
+                            <td class="products-table-col "><a class="btn btn-light m-1" href="/admin/products/<%=product.id%>" class="product-view-btn"><span class="fa fa-binoculars"></span></a>
+                            <a href="/admin/products/edit/<%= product.id %>" class="btn btn-light m-1"><span class="fa fa-edit"></span></a></td>
+                        </tr>
                     <% } %>
-                </tbody>
-                
-            </table>
-        </main>
-    </div>
+                <% } %> 
+            </tbody>
+            
+        </table>
+        <p class="text-center mt-3">صفحه  <%= options.page %></p>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item <%= options.page=='1'? 'disabled':'' %>">
+                <a class="page-link" href="<%= options.page=='1'? '' :'/admin/products?page='+ (+options.page - 1)+'&sort='+options.sort+'&category='+options.listCategory %>" aria-label="previous">
+                    قبلی 
+                </a> 
+                </li>
+                <% if (options.page !='1') { %>
+                <li class="page-item"><a class="page-link" href="/admin/products?page=<%= (+options.page -1) +'&sort='+options.sort+'&category='+options.listCategory %>"><%= +options.page -1 %></a></li>
+                <% } %>
+                <li class="page-item"><a class="page-link" href="/admin/products?page=<%= +options.page + '&sort='+options.sort+'&category='+options.listCategory %>"><%= +options.page  %></a></li>
+                <% if (!options.isLastPage) { %>
+                <li class="page-item"><a class="page-link" href="/admin/products?page=<%= (+options.page + 1) +'&sort='+options.sort+'&category='+options.listCategory %>"><%= +options.page +1 %></a></li>
+                <% } %>
+                <li class="page-item <%= options.isLastPage?'disabled':'' %>">
+                <a class="page-link" href="<%= options.isLastPage?'': '/admin/products?page='+ (+options.page + 1)+'&sort='+options.sort+'&category='+options.listCategory %>" aria-label="Next">
+                    بعدی
+                </a>
+                </li>
+             </ul>
+        </nav>
+    
+    </main>
     <script src="/js/jquery-slim.js"></script>
     <script src="/js/search.js"></script>
 </body>

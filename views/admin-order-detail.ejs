@@ -56,6 +56,7 @@
                         <input type="text" style="display: none;" id="statsToolsIn">
                         <div id="statsToolsWrap" style="display: none;" class="stats-tools-wrapper">
                             <div class="stats-tool p-1 border">
+                                
                                 <a href="" data-target="<%= order.deliveryStat =='delivered'?'':'#tahvilModal'%>" data-toggle="modal" class="d-block py-1 <%= order.deliveryStat=='delivered'?'disabled-link':'' %>">
                                     تغییر به تحویل شده
                                 </a>
@@ -107,6 +108,7 @@
                 </div>
                 <form action="/admin/orders/changeToDelivered" method="POST">
                     <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="tahvilDateIn">تاریخ تحویل</label>
@@ -131,6 +133,7 @@
                     </button>
                 </div>
                 <form action="/admin/orders/changeToPending/" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
                     <div class="modal-body">
                         <p>آیا از تغییر سفارش به وضعیت در حال پردازش مطمئنید؟</p>
@@ -153,6 +156,7 @@
                     </button>
                 </div>
                 <form action="/admin/orders/changeTocancelled/" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name='orderNo' value='<%= order.orderNo%>'>
                     <div class="modal-body">
                         <p>آیا از تغییر سفارش به وضعیت لغو شده مطمئنید؟</p>

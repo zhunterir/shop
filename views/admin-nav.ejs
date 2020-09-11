@@ -1,7 +1,11 @@
 <nav class="admin-nav">
-    <a  href="/admin/add-product" class="admin-nav-item <% path==='add-product'? 'active':'' %>">افزودن کالا</a>
-    <a href="/admin/products" class="admin-nav__categories-btn admin-nav-item <% path==='products'? 'active':''%>">محصولات</a>
-    <a href="/admin/orders" class="admin-nav-item <%= path=='orders'? 'active':'' %>">سفارشات</a>
+    <a  href="/admin/add-product" class="p-2 admin-nav-item <%= path=='add-product'? 'active':'' %>">افزودن کالا</a>
+    <a href="/admin/products" class="p-2 admin-nav__categories-btn admin-nav-item <%= path==='products'? 'active':''%>">محصولات</a>
+    <a href="/admin/orders" class="p-2 admin-nav-item <%= path=='orders'? 'active':'' %>">سفارشات</a>
+    <form class="admin-nav-item p-0" method="POST" action="/admin/logout">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <button type="submit" class="btn p-2" >خروج </button>
+    </form>
         <!-- <% for (let cat of categories){ %>
             <a href="admin/products?category=<%=cat%>" class="admin-nav__category-item "><%= cat %></a>
         <% } %> -->

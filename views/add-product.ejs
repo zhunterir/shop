@@ -33,7 +33,7 @@
                     <label for="id-title">نام محصول: </label>
                     <input type="text" autocomplete="off" name="title" id="title-input" class="form-input" maxlength="150"  required>
                 </div>
-                <div class="form-add-product__cell ">
+                <div class="form-add-product__cell">
                     <label for="id-category">دسته بندی: </label>
                     <select name="category" class="custom-select"  id="id-category">
                         <option value=" ">---</option>
@@ -53,17 +53,17 @@
                 </div> -->
             </div>
             <div class="form-add-product__row d-flex flex-column flex-lg-row">
-                <div class="form-add-product__cell ">
+                <div class="form-add-product__cell">
                     <label for="id-price">قیمت: </label>
                     <input type="text" maxlength="150" autocomplete="off" pattern="\d+" class="form-input" required id="price-input" name="price">
                     <span style="margin-right: 5px;"> تومان </span>
                 </div>
-                <div class="form-add-product__cell ">
+                <div class="form-add-product__cell">
                     <label for="id-sale">تخفیف: </label>
                     <input type="text" pattern="\d+" autocomplete="off" maxlength="150"  class="form-input"  id="sale-input" name="sale" >
                     <span style="margin-right: 5px;"> تومان </span>
                 </div>
-                <div class="form-add-product__cell ">
+                <div class="form-add-product__cell">
                     <label for="id-count">موجودی: </label>
                     <input type="text" pattern="\d+" autocomplete="off" maxlength="150" class="form-input"  id="count" name="count" required>
                     <span class="custom-control custom-switch mr-3">
@@ -135,6 +135,7 @@
                             <div class="more-info-table__header third-col bg-dark">-</div>
                         </div>
                     </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="captcha" value="">
                     <div class="form-add-product__btn-group">
                         <button class="btn btn-primary submit-btn" type="submit">ذخیره</button>

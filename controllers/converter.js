@@ -54,7 +54,6 @@ function jalali_to_gregorian(jy, jm, jd) {
   for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
   return [gy, gm, gd];
 }
-
 module.exports['gregorian_to_jalali'] = gregorian_to_jalali;
 
 

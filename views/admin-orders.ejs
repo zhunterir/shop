@@ -12,25 +12,62 @@
     <title>سفارشات</title>
 </head>
 <body>
-    <%- include('./admin-nav', {'categories':categories, 'path': ''}) %>
+    <%- include('./admin-nav', {'categories':categories, 'path': 'orders'}) %>
     <main class='main-content'>
-        <div class="orders-container p-3">
-            <p class="text-center">صفحه  <%= options.page %></p>
+        <% if (options.message) { %>
+            <div id="message" class="p-3 mx-auto main-message" style="background-color: <%= options.message.color %>;">
+                <%= options.message.text %>
+            </div>
+        <% } %>
+        <div class= "orders-container p-3">
+            <form action= "/admin/orders/search" method="GET">
+                <div class="p-3 border-bottom">
+                    <label for="orderSearchIn">جستجو: </label>
+                    <input autocomplete="off" type="text" name="orderNo" placeholder="کد سفارش را وارد کنید" id="orderSearchIn">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </form>
+            <div>
+                <form method="GET" class= "d-md-flex align-items-center border-bottom p-3" action="/admin/orders">
+                    <div class="py-2">
+                        <label for="categorySelect">طبقه بندی: </label>
+                        <select name="category" class="custom-select">
+                            <option value="" <%= options.category==''?'selected':'' %>>همه</option>
+                            <option value="unchecked" <%= options.category=='unchecked'?'selected':'' %>>چک نشده ها</option>
+                            <option value="delivered" <%= options.category=='delivered'?'selected':'' %>>تحویل شده ها</option>
+                            <option value="cancelled" <%= options.category=='cancelled'?'selected':'' %>>لغو شده ها</option>
+                            <option value="pending" <%= options.category=='pending'?'selected':'' %> >در حال پردازش</option>
+                        </select>
+                    </div>
+                    <div class="py-2">
+                        <label for="orderSelect">مرتب سازی بر اساس: </label>
+                        <select name="sort" class="custom-select">
+                            <option value="orderDate-desc">تاریخ سفارش (نزولی)</option>
+                            <option value="orderDate-asc">تاریخ سفارش (صعودی) </option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">اعمال فلیترها</button>
+                </form>
+            </div>
+            <p class="text-center mt-3">صفحه  <%= options.page %></p>
             <% for(let order of orders) { %>
             <div class="order mb-4 border p-3">
-                <div class= "d-flex pb-3 align-items-center border-bottom flex-wrap order-header">
-                    <div class="order-info"><%= order.orderDateStr %></div>
-                    <div class="order-info"><%= order.orderNo %></div>                  
-                    
-                    <div class="order-info mr-md-3 "><span class="text-secondary">مبلغ کل : </span><%= order.totalCost%></div>
+                <div class= "d-md-flex pb-3 align-items-center border-bottom  order-header">
+                    <div class="order-info"><span class="d-inline d-md-none text-secondary">تاریخ ثبت سفارش: </span><%= order.orderDateStr %></div>
+                    <div class="order-info"><span class="text-secondary">کد: </span><%= order.orderNo %></div> 
+                    <div class="order-info"><span class="text-secondary">مبلغ کل : </span><%= order.totalCost%></div>
                     <div class="order-info"><span class="text-secondary">مبلغ قابل پرداخت: </span><%= order.payable %></div>
-                    <div class="order-info <%= order.deliveryStat + '-text' %>" ><%= order.deliveryStat=='delivered'?'تحویل شده در ' + order.deliveryDateStr: order.deliveryStat=='pending'?'در حال پردازش':'لغو شده'%></div>
-                    <a class="mr-auto pt-2" href="/admin/orders/<%= order.orderNo %>">مشاهده جزییات ></a>
+                    <div class="mr-md-1 <%= order.deliveryStat + '-text' %> p-2" ><%= order.deliveryStat=='delivered'?'تحویل شده در' + order.deliveryDateStr: order.deliveryStat=='pending'?'در حال پردازش':'لغو شده'%></div>
+                    <div class="mr-auto d-md-flex align-items-center text-left">
+                        <a class="mr-auto px-2" href="/admin/orders/<%= order.orderNo %>">مشاهده جزییات ></a>
+                    </div>
                 </div>
-                <div class="d-flex flex-wrap pt-3">
-                    <div class="">خودکار بیک لیوانی</div>
-                    <div class=" mx-2 text-secondary">|</div>
-                    <div>خودکار کنکو زرد</div>
+                <div class= "d-md-flex pt-3">
+                    <% for (let item of order.items){ %>
+                        <div class=""><%= item.title %> <span class="d-none d-md-inline">|</span></div>
+                    <% } %>
                 </div>
             </div>  
             <% } %>
@@ -38,19 +75,19 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                   <li class="page-item <%= options.page=='1'? 'disabled':'' %>">
-                    <a class="page-link" href="<%= options.page=='1'? '' :'/admin/orders?page='+ (+options.page - 1) %>" aria-label="previous">
+                    <a class="page-link" href="<%= options.page=='1'? '' :'/admin/orders?page='+ (+options.page - 1)+'&sort='+options.sort+'&category='+options.category %>" aria-label="previous">
                       قبلی 
                     </a>
                   </li>
                   <% if (options.page !='1') { %>
-                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= +options.page -1 %>"><%= +options.page -1 %></a></li>
+                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= (+options.page -1) +'&sort='+options.sort+'&category='+options.category %>"><%= +options.page -1 %></a></li>
                   <% } %>
-                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= +options.page %>"><%= +options.page  %></a></li>
+                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= +options.page + '&sort='+options.sort+'&category='+options.category %>"><%= +options.page  %></a></li>
                   <% if (!options.isLastPage) {%>
-                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= +options.page + 1 %>"><%= +options.page +1 %></a></li>
+                  <li class="page-item"><a class="page-link" href="/admin/orders?page=<%= (+options.page + 1) +'&sort='+options.sort+'&category='+options.category %>"><%= +options.page +1 %></a></li>
                   <% } %>
                   <li class="page-item <%= options.isLastPage?'disabled':'' %>">
-                    <a class="page-link" href="<%= options.isLastPage?'': '/admin/orders?page='+ (+options.page + 1) %>" aria-label="Next">
+                    <a class="page-link" href="<%= options.isLastPage?'': '/admin/orders?page='+ (+options.page + 1)+'&sort='+options.sort+'&category='+options.category %>" aria-label="Next">
                      بعدی
                     </a>
                   </li>

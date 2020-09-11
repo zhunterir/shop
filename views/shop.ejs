@@ -74,13 +74,13 @@
                                 </div>
                                 <div id="registerWarningBody" class="w-100 p-2">هشدار</div>
                             </div>
-                            <form action="">
+                            <form action = "/users/signup" method="POST" id="signupForm" novalidate>
                                 <div class="row">
                                     <input class="w-100 mb-3 p-2 modal-input valid-input"  name="fname" placeholder="نام" type="text" required>
                                     <span class="modal-error"></span>
                                 </div>
                                 <div class="row mb-3">
-                                    <input class="w-100 p-2 modal-input valid-input"  name="lname" placeholder="نام خانوادگی" type="text" required>
+                                    <input class="w-100 p-2 modal-input valid-input"  name="lname" placeholder= "نام خانوادگی" type="text" required>
                                     <span class="modal-error"></span>
                                 </div>
                                 <div class="row mb-3">
@@ -91,22 +91,25 @@
                                     <input class="w-100 p-2 modal-input valid-input" id="signUpRePass" name="repassword" maxlength="20" placeholder="تکرار گذر واژه" type="password" required>
                                     <span class="modal-error"></span>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-12 col-sm-6">
-                                        <input type="text" name="mobile" class="p-2 modal-input" id="mobile-register" pattern="^09\d+$" placeholder="موبایل"  maxlength="11" minlength="11" class="modal-input" required>
-                                        <span class="modal-error"></span>
-                                    </div>
-                                    <button type="button" id="registerCodeRequest" class="btn col-xs-12 col-sm-5 btn-dark code-request-btn mr-auto" disabled>ارسال کد فعال سازی</button>
+                                <div class="row mb-2">   
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="mobile" class="p-2 modal-input" id="mobile-register" pattern="^09\d+$" placeholder="موبایل"  maxlength="11" minlength="11" class="modal-input" required>
+                                    <span class="modal-error"></span>
                                 </div>
-                                <div  class="row">
-                                    <input  style="display:none" type="text" id="code-input" name="code" class="modal-input col-12 col-sm-6 p-2" maxlength="6" minlength="6" placeholder="کد فعال سازی" required>
+                                <input type="hidden" name="_csrf" value=" <%= csrfToken %>">
+                                <button type="button" id="registerCodeRequest" class="btn col-xs-12 col-sm-5 btn-dark code-request-btn mr-auto" disabled>ارسال کد فعال سازی</button>
+                
+                                </div>
+                                <div class="row">
+                                    <input  style="display:none" type="text" id="code-input" name="code" class="modal-input col-12 col-sm-6 p-2" placeholder="کد فعال سازی" required>
                                 </div>
                                 <div class="row align-items-center">
                                     <p>
-                                        <input id="ruleCheck" name="rule-accept" required type="checkbox" >
+                                        <input id="ruleCheck" name="ruleAccept" required type="checkbox" >
                                         <strong class="mr-1">تمامی <a href="/store/قوانین و مقررات" > قوانین و مقررات</a> را می پذیرم</strong>
                                     </p>
                                 </div>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="row mt-3">
                                     <button class="btn btn-primary w-100" id="modal-submit-btn" type="submit" disabled>ثبت نام</button>
                                 </div>
@@ -135,15 +138,16 @@
                 </div>
                 <div class="container">
                     <div class="modal-body">
-                        <form action="" novalidate>
+                        <form action="/users/login" method="POST">
                             <div class="row">
-                                <input class="w-100 mb-3 p-2 register-input" name="mobile" placeholder="موبایل" type="text" required>
+                                <input class="w-100 mb-3 p-2 register-input" id="loginMobile" name="mobile" placeholder="موبایل" type="text" required>
                             </div>
                             <div class="row">
-                                <input class="w-100 mb-3 p-2 register-input" name="password" placeholder="گذر واژه" type="password" required>
+                                <input class="w-100 mb-3 p-2 register-input" id="loginPass" name="password" placeholder="گذر واژه" type="password" required>
                             </div>
+                            <input type="hidden" name="_csrf" value=" <%= csrfToken %>">
                             <div class="row mb-2">
-                                <button id="signin-btn" class=" w-100 btn col-xs-12 btn-primary " >ورود</button>
+                                <button id="signin-btn" type="submit" class=" w-100 btn col-xs-12 btn-primary " >ورود</button>
                             </div>
                         </form>
                     </div>
@@ -186,6 +190,7 @@
                             <input type="text" name="code" class="forgotPassInput p-2"  style="display: none" id="forgotPassCodeIn" placeholder="کد ارسالی" maxlength="5" minlength="5" required>
                         </div>
                         <div class="row">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="button" class="btn btn-primary w-100" id="passRecoverRequestBtn" disabled>درخواست بازیابی گذرواژه</button>
                         </div>
                     </div>

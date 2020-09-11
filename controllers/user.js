@@ -3,30 +3,30 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bycrypt = require("bcrypt");
 const Joi = require("joi");
-
 const router = express.Router();
 const {User , validateSignup , validateSignin , validateUpdate} = require('../models/user.js');
 
-router.get('/signup' , (req , res)=>{
-    res.render('sign_up');
-})
-
-router.get('/signin' , (req , res)=>{
-    res.render('sign_in');
-})
-
-router.get('/update' , (req , res)=>{
-    res.render('update');
-})
 
 router.post('/register' , async (req , res)=>{
     var {error} = validateSignup(req.body);
-    if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
-
+    // if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
+    if (error){
+        return res.sendStatus(403);
+    }
+    if (req.body.password !== req.body.repassword){
+        return res.sendStatus(403);
+    }
+    // check code 
+    let user  = await User.findOne({mobile: req.body.mobile});
+    if (user){
+        req.flash('openTab', 'signup');
+        req.flash('fname', req.body.fname);
+        req.flash("lname", req.body.lname);
+        return res.redirect('/')
+    }
     var salt  =  await bycrypt.genSalt(10);
     req.body.password = await bycrypt.hash(req.body.password , salt);
-
-    var user = new User({
+    user = new User({
         phone : req.body.phone,
         password : req.body.password
     });

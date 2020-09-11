@@ -13,13 +13,14 @@
     <title>add-product</title>
 </head>
 <body>
-    <%- include('./admin-nav', {'categories':categories, 'path': path}) %>
-    <main class="main-content">
+    
+   <%- include('./admin-nav', {'categories':categories, 'path': path}) %> <main class="main-content">
         <div class="d-flex p-3 border-bottom">
             <h5><%= action=='view'? 'مشاهده کالا':  'تغییر اطلاعات کالا' %></h5>
                 <% if (action=="edit") { %>
 
             <form method="POST" class="mr-auto" action="/admin/products/delete">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="id" value="<%= product.id %>">
                     <button class="btn btn-danger">حذف محصول از فروشگاه</button>
             </form>
@@ -72,7 +73,7 @@
                 </div>
                 <div class="form-add-product__cell">
                     <label for="countInput">موجودی: </label>
-                    <input type="text" class="form-input" name="count" value="<%= product.count==Infinity?نامحدود: product.count %>" autocomplete="off" <%= action=='view'? 'disabled':'' %> id="count" required>
+                    <input type="text" class="form-input" name="count" value="<%= product.count==Infinity?'نامحدود': product.count %>" autocomplete="off" <%= action=='view'? 'disabled':'' %> id="count" required>
                     <span class="custom-control custom-switch mr-3">
                         <input type="checkbox" name="infCount" id="infinity" class="custom-control-input" <%= action=='view'? 'disabled':'' %> <%= product.count==Infinity? 'checked':'' %> >
                         <label for="infinity"  class="custom-control-label"> موجودی نامحدود</label>
@@ -157,6 +158,7 @@
                     <textarea name="about" id="id-about" cols="30" rows="4" class="c-textarea" <%= action=='view'? 'disabled':'' %>><%= product.about %></textarea>
                 </div>
             </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="captcha" value="" <%= action=='view'? 'disabled':'' %>>
             <% if (action=='view') { %>
                 <a href="/admin/products/edit/<%=product.id%>" class=" btn change-info-btn btn-danger">تغییر اطلاعات کالا</a>

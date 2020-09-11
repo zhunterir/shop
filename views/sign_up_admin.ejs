@@ -4,22 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/bootstrap.min4.5.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/sign_up.css">
 </head>
 <body>
-    <article class="signup-form">
-        <form class="flex-container-v "action="/admin/register" method="POST">
-            <header class="align-center"><h1>ایجاد حساب کاربری جدید برای مدیر</h1></header>
-            <label for="username">: نام کاربری</label>
-            <input type="text" id="username" name="username" >
-            <label for="password">: کلمه عبور</label>
-            <input type="password" id="password" name="password" maxlength="15">
-            <label for="repassword">: تکرار کلمه عبور</label>
-            <input type="password" id="repassword"  name="repassword" maxlength="15">
-            <label for="email">: پست الکترونیکی</label>
+    <article class="signup-form main-content">
+        <form class="form" action="/admin/register" method="POST">
+            <header class="align-center border-bottom"><h2>ایجاد حساب کاربری برای مدیر</h2></header>
+            <div >
+                <label for="username">نام کاربری: </label>
+                <input type="text" class="form-control" id="username" name="username" >
+            </div>
+            <div >
+                <label for="password">کلمه عبور:</label>
+                <input type="password" class="form-control" id="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" name="password" maxlength="15" required>
+            </div>
+            <div>
+                <label for="repassword">تکرار کلمه عبور:</label>
+                <input type="password" id="repassword"  name="repassword" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" maxlength="15" required>
+            </div>
+            <label for="email">پست الکترونیکی:</label>
             <input type="text" id="email"  name="email">
             <input id="submit-btn" type="submit" value="تایید">
         </form>
     </article>  
+    <script src="/js/sign-up-admin.js"></script>
 </body>
 </html>

@@ -4,7 +4,9 @@ const bycrypt = require("bcrypt")
 const mongoose = require("mongoose");
 const {Admin , validateSignup , validateSignin  , validateUpdate} = require('../models/admin.js');
 const fs = require('fs');
+const isAuth = require('../middleware/isAuthAdmin');
 const pageLimit = 10;
+const prodPageLim = 10;
 const gregorian_to_jalali = require("./converter").gregorian_to_jalali;
 const OrderItem = require("../models/orderItem");
 const jalaali = require('jalaali-js')
@@ -14,7 +16,7 @@ const path = require('path');
 const formidable = require('formidable');
 const Product = require('../models/product');
 const Joi = require('@hapi/joi');
-const Order = require("../models/order");
+const Order = require("../models/order").model;
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
 const getObjectSize =require('./admin-utils').getObjectSize;
 const getStrTime = require('./admin-utils').getStrTime;
@@ -111,33 +113,36 @@ async function addOrUpdateProduct(req,res, productID){
     
   }
   //////////////////////////////////////////
-router.get('/add-product', (req, res , next)=>{
+router.get('/add-product',isAuth, (req, res , next)=>{
   let categories = loadPrefs().categories;
-  return res.render('add-product',{'categories': categories,error: '',path:'add-product'});
-})
-router.post('/add-product', (req, res, next)=>{
+  return res.render('add-product',{'categories': categories,error: '',path:'add-product', csrfToken: req.csrfToken()});
+});
+router.post('/add-product', isAuth,(req, res, next)=>{
   return addOrUpdateProduct(req, res, undefined);
 });
-router.get('/products/card/:productID', (req, res, next)=>{
-  let productID = req.params.productID;
+// router.get('/products/card/:productID', (req, res, next)=>{
+//   if (! req.session.isLoggedIn){
+//     return res.redirect('/admin/login')
+//   }
+//   let productID = req.params.productID;
   
-  Product.findOne({id: productID},(err,doc)=>{
-    if (err || !doc){
-      return res.sendStatus(404).send('<p>product with ID:'+req.params.productID+' not found</p>');
-    }
-    console.log(doc);
-    let product = doc.toObject();
-    console.log('product:', product);
-    product.creationStr = getStrTime(product["creationDate"]);
-    return res.send(JSON.stringify(product));
-  })
-});
+//   Product.findOne({id: productID},(err,doc)=>{
+//     if (err || !doc){
+//       return res.sendStatus(404).send('<p>product with ID:'+req.params.productID+' not found</p>');
+//     }
+//     console.log(doc);
+//     let product = doc.toObject();
+//     console.log('product:', product);
+//     product.creationStr = getStrTime(product["creationDate"]);
+//     return res.send(JSON.stringify(product));
+//   })
+// });
 
-router.post('/products/edit', async (req, res, next)=>{
+router.post('/products/edit',isAuth, async (req, res, next)=>{
   return await addOrUpdateProduct(req,res, req.query.id);
 });
 
-router.get('/products/edit/:productID', (req, res, next)=>{
+router.get('/products/edit/:productID',isAuth, (req, res, next)=>{
   let categories = loadPrefs().categories;
   Product.findOne({id: req.params.productID},(err, doc)=>{
     if (err){
@@ -149,7 +154,10 @@ router.get('/products/edit/:productID', (req, res, next)=>{
   })
 });
 
-router.get('/products/search',(req, res, next)=>{
+router.get('/products/search', isAuth, (req, res, next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
   console.log('search req');
   let title = req.query.title;
   // let category = req.query.category;
@@ -172,36 +180,76 @@ router.get('/products/search',(req, res, next)=>{
     return res.json([]);
   }
 });
-router.get("/orders", async (req, res, next)=>{
+router.get("/orders", isAuth, async (req, res, next)=>{
+  // if (! req.session.isLoggedIn){
+  //   return res.redirect('/admin/login');
+  // }
   let options ={};
   let orders = [];
   let jalDate = '';
+  let query = null;
   if (!req.query.page){
-    orders = await Order.find().sort({orderDate:-1}).limit(pageLimit+1).exec();
+    query = Order.find().limit(pageLimit+1);
     options.page = '1';
   }
   else{
     options.page = req.query.page;
-    orders = await Order.find().sort({orderDate:-1}).limit(pageLimit+1).skip((+req.query.page - 1) * pageLimit).exec(); 
+    query = Order.find().limit(pageLimit+1).skip((+req.query.page - 1) * pageLimit); 
 
   }
-  console.log('after',orders);
+  if (req.query.sort){
+    if (req.query.sort =='orderDate-asc'){
+      query.sort({orderDate:1});
+      options.sort = 'orderDate-asc'
+    }
+    else{
+      query.sort({orderDate:-1});
+    }
+  }
+  if (req.query.category){
+    if (req.query.category=='unchecked'){
+      query.where('checked').equals(false);
+    }
+    else{
+      query.where('deliveryStat').equals(req.query.category);
+    }
+  }
+  options.category =  req.query.category || '';
+  options.category = req.query.category || '';
+  if (req.query.message){
+    options.message = JSON.parse(req.query.message);
+  }
+  orders = await query.exec();
   if (! orders[10]){
     options.isLastPage = true;
   }
   else{
-    console.log('orders1000000000000000',orders[10]);
     orders.splice(10, 1);
   }
-  console.log(orders);
   for (let order of orders){
     jalDate = jalaali.toJalaali(order.orderDate.getFullYear(), order.orderDate.getMonth() + 1,order.orderDate.getDate());
     order.orderDateStr = jalDate.jy +'/' + jalDate.jm + '/' + jalDate.jd ;
   }
-  res.render("admin-orders", {categories: loadPrefs().categories, orders:orders,path:'orders', options})
+  res.render("admin-orders", {categories: loadPrefs().categories, orders:orders, path:'orders', options})
 });
-
-router.post("/orders/changeToPending", async(req, res, next)=>{
+router.get('/orders/search', isAuth, async  (req, res, next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
+  let options = {};
+  let order = await Order.findOne({orderNo: req.query.orderNo});
+  if (order){
+    res.render('admin-order-detail', {categories: loadPrefs().categories, path: '', order: order, options: options });
+  }
+  else{
+    let message =JSON.stringify({color: 'red', text: 'سفارش مورد نظر یافت نشد.'});
+    res.redirect('/admin/orders?message='+message);
+  }
+});
+router.post("/orders/changeToPending", isAuth, async(req, res, next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
   let {error} = Joi.object({orderNo: Joi.string().max(7)}).validate(req.body);
   if (!error){
     let order= await Order.findOne().where('orderNo').equals(+req.body.orderNo).exec();
@@ -214,15 +262,20 @@ router.post("/orders/changeToPending", async(req, res, next)=>{
     res.sendStatus(403);    
   }
 })
-router.post('/orders/changeToCancelled', async (req, res, next)=>{
+router.post('/orders/changeToCancelled', isAuth, async (req, res, next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
   let order = await Order.findOne().where('orderNo').equals(+req.body.orderNo);
   order.deliveryStat = 'cancelled';
   order.deliveryDate = new Date();
   await order.save();
   res.redirect("/admin/orders/"+req.body.orderNo);
 })
-router.post("/orders/changeToDelivered",async  (req ,res ,next)=>{
-  console.log('req body: ',req.body);
+router.post("/orders/changeToDelivered", isAuth, async  (req ,res ,next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
   let scheme = Joi.object({
     orderNo: Joi.string().max(7).required(),
     date: Joi.string().regex(/^\d{4}\/\d{1,2}\/\d{1,2}$/) 
@@ -248,13 +301,18 @@ router.post("/orders/changeToDelivered",async  (req ,res ,next)=>{
     return res.sendStatus(403);
   }
 })
-router.get("/orders/:id",async (req, res ,next)=>{
+router.get("/orders/:id", isAuth, async (req, res ,next)=>{
+  if (! req.session.isLoggedIn){
+    return res.redirect('/admin/login')
+  }
   let order = await Order.findOne({orderNo: req.params.id});
+  order.checked = true;
   let jalDate = jalaali.toJalaali(order.orderDate.getFullYear(), order.orderDate.getMonth() + 1,order.orderDate.getDate());
   order.orderDateStr = jalDate.jy +'/' + jalDate.jm + '/' + jalDate.jd ;
   jalDate = jalaali.toJalaali(order.deliveryDate.getFullYear(), order.deliveryDate.getMonth()+1, order.deliveryDate.getDate());
   order.deliveryDateStr = jalDate.jy +'/' + jalDate.jm + '/' + jalDate.jd;
   console.log(order.deliveryDateStr);
+  await order.save();
   res.render("admin-order-detail", {order: order, categories: loadPrefs().categories});
 });
 // router.post('/products/change-categories', (req,res,next)=>{
@@ -283,7 +341,7 @@ router.get("/orders/:id",async (req, res ,next)=>{
 //     })
 //   }
 // });
-router.get('/products/:productID', (req, res, next)=>{
+router.get('/products/:productID',isAuth, (req, res, next)=>{
   let categories=  loadPrefs().categories;
   Product.findOne({id: req.params.productID},(err, doc)=>{
     if (err){
@@ -293,91 +351,109 @@ router.get('/products/:productID', (req, res, next)=>{
     return res.render('admin-edit-product',{categories: categories, path:'', action:'view', product: doc, error:''})
   })
 });
-router.post("/products/delete", async (req, res, next)=>{
+router.post("/products/delete",isAuth, async (req, res, next)=>{
   let result = await Product.deleteOne({id: req.body.id});
   if (res)
     return res.redirect('/admin/products?message=delete_ok');
   else 
     return res.redirect('/admin/products?message=delete_error');
 });
-router.get('/products', (req, res ,next)=>{
+router.get('/products',isAuth, (req, res ,next)=>{
   let categories = loadPrefs().categories;
-  let query= Product.find().limit(100).sort('title').select('title price sale id count');
-  let options = {categories:categories, path: 'products', message: req.query.message,succeed:null, error:null};
-  if ( req.query.category){
-    query.where('category').equals(req.query.category);
-    options['listCategory']= req.query.category;
+  let query= Product.find().sort('title').select('title price sale id count').limit(prodPageLim+1);
+  let options= {};
+  options.sort = 'title';
+  if (!req.query.page){
+    options.page = '1';
   }
   else{
-    options['listCategory']= '';
+    options.page = req.query.page;
+    query.skip((+req.query.page - 1) * prodPageLim); 
+
   }
-  query.exec((err, results)=>{
+  if ( req.query.category){
+    query.where('category').equals(req.query.category);
+  }
+  options['listCategory']= req.query.category || '';
+
+  query.exec((err, products)=>{
     if (err){
       console.log(err);
-      return res.sendStatus(404);
+      return res.sendStatus(500);
     }
-    options['products']= results;
-    res.render('admin-products',options);
+    if (! products[10]){
+      options.isLastPage = true;
+    }
+    else{
+      products.splice(10, 1);
+    }
+    console.log(categories);
+    res.render('admin-products', {options: options, categories: categories, products: products, path: 'products', message: req.query.message,succeed:null, error:null});
   })
 });
 
-router.get('/signin-fake', (req, res, next)=>{
-  res.render("signin-fake");
-});
-
-router.post('/login-fake', (req, res, next)=>{
-  req.session.isAdmin = true;
-  res.redirect('/admin');
-});
-
-router.get('/', (req, res, next)=>{
+router.get('/', isAuth, (req, res, next)=>{
   let categories = loadPrefs().categories;
-  res.render('admin-main', {categories:categories, path: ''}); 
+  return res.render('admin-main', {categories:categories, path: ''}); 
 });
-
-
 router.get('/signup' , (req , res)=>{
-    res.render('sign_up_admin');
+    return res.render('sign_up_admin');
+});
+router.post('/logout',isAuth, (req ,res ,next)=>{
+  req.session.destroy((err)=>{
+    if (err){
+      return console.log(err);
+    }
+    return res.redirect('/admin');
+  })
+});
+router.get('/login' , (req , res, next)=>{
+  // let message = '';
+  // if (req.flash('error')[0]){
+  //   message = req.flash('error')[0];
+  // } 
+  return res.render('admin-login', {error: req.flash('error')} );
 });
 
-router.get('/signin' , (req , res)=>{
-    res.render('sign_in_admin');
-});
-
-router.get('/update' , (req , res)=>{
+router.get('/update' , (req , res, next)=>{
     res.render('update_admin');
 });
-router.post('/register' , async (req , res)=>{
-    var {error} = validateSignup(req.body);
-    if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
+// router.post('/register' , async (req , res)=>{
+//     var {error} = validateSignup(req.body);
+//     if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
 
-    var salt  =  await bycrypt.genSalt(10);
-    req.body.password = await bycrypt.hash(req.body.password , salt);
+//     var salt  =  await bycrypt.genSalt(10);
+//     req.body.password = await bycrypt.hash(req.body.password , salt);
 
-    var admin = new Admin({
-        username : req.body.username,
-        password : req.body.password,
-        email : req.body.email
-    });
+//     var admin = new Admin({
+//         username : req.body.username,
+//         password : req.body.password,
+//         email : req.body.email
+//     });
 
-    await admin.save();
-    return res.status(200).render('result' , { result : `You registered successfuly with this phone : ${req.body.username}`});
-});
-
+//     await admin.save();
+//     return res.status(200).render('result' , { result : `You registered successfuly with this phone : ${req.body.username}`});
+// });
 
 
 router.post('/login' , async(req , res)=>{
-    var {error} = validateSignin(req.body);
-    if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
-    
+    // var {error} = validateSignin(req.body);
+    // console.log(error);
+    // if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
     var admin = await Admin.findOne({username : req.body.username});
-    if(!admin) return res.status(404).render('result' , { result : "User with this number did not find....!"});
-
+    if(!admin){
+      req.flash('error', 'نام کاربری یافت نشد');
+      return res.redirect('/admin/login')
+    }
     var validatePass = await bycrypt.compare(req.body.password , admin.password);
-    if(!validatePass) return res.status(401).render('result' , { result : "Invalid password.....!"});
-
-    return res.status(200).render('result' , { result : "You log in successfuly"});
-    
+    if(!validatePass){
+      req.flash('error', 'رمز عبور اشتباه است')
+      return res.redirect('/admin/login');
+    }
+    // req.session.admin = admin;
+    req.session.isLoggedIn =  true;
+    await req.session.save();
+    return res.redirect('/admin');  
 });
 router.post('/update' , async(req , res)=>{
     var {error} = validateUpdate(req.body);
