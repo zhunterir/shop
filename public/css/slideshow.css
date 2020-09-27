@@ -1,0 +1,198 @@
+*{
+    box-sizing: border-box;
+}
+
+.card-old-price{
+    font-size: 0.8rem;
+    color: red;
+    text-decoration:red line-through;
+}
+.card-new-price{
+    font-size: 1rem;
+    font-weight: bold;
+}
+.card-text{
+    width: 95%;
+}
+.c-slide-wrapper{
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 1ex;
+    overflow: hidden;
+    font-size: 1rem;
+    position: relative;
+    margin: auto;
+}
+.c-slide-heading{
+    padding:0.75rem;
+    display:inline-block;
+    border-bottom: 2px solid gold;
+}
+.c-slide-inner{
+    display: flex;
+    /* height: 100%; */
+    flex-flow: row nowrap;
+    align-items: center;
+    transition: transform 1s,  -webkit-transform 1s;
+    z-index: 1;
+}
+.product-card:hover, .product-card, .product-card:active, .product-card:visited{
+   color: black; 
+   text-decoration: none;
+}
+.c-slide-item{
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.082);
+}
+.c-slide-next-control{
+    cursor: pointer;
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    height: 70px;
+    width: 45px;
+    margin-top: -24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.651);
+    text-decoration: none; 
+    border: 1px solid rgba(0, 0, 0, 0.233);
+    border-radius: 1ex 0 0 1ex;
+    box-shadow: 1px 1px 1px rgba(128, 128, 128, 0.575);
+}
+.c-slide-prev-control{
+    cursor: pointer;
+    z-index: 2;
+    position: absolute;
+    display: flex;
+    height: 70px;
+    width: 45px;
+    align-items: center;
+    justify-content: center;
+    left: -1px;
+    top:50%;
+    margin-top: -24px;
+    color: black;
+    background: rgba(255, 255, 255, 0.651);
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.233);
+    border-radius: 0ex 1ex 1ex 0;
+    box-shadow: -1px 1px 1px rgba(128, 128, 128, 0.575);
+    
+}
+
+@media only screen and (max-width : 600px){
+    .c-slide-wrapper{
+        font-size: 0.9rem;
+        width: 100%;
+        border-radius: 0;
+    }
+    .card-img-top{
+        height: 145px;
+    }
+    .c-slide{
+        overflow-x: auto;
+    }
+    .c-slide-prev-control, .c-slide-next-control{
+        display: none;
+    }
+    .c-slide-item{
+        margin: 1rem;
+        padding: 0.5rem;
+        flex: 0 0 11rem;
+        height: 17rem;
+    }
+}
+@media only screen and (min-width : 600px){
+    .c-slide-wrapper{
+        width: 90%;
+        
+        font-size: 0.9rem;
+        
+    }
+    .c-slide{
+        overflow-x: auto;
+    }
+    .c-slide-prev-control, .c-slide-next-control{
+        display: none;
+    }
+    .card-img-top{
+        height: 180px;
+    }
+    .c-slide-item{
+        margin: 1rem;
+        padding: 0.5rem;
+        height: 20rem;
+        flex: 0 0 14rem;
+    }
+}
+/* landscape tablet */
+@media only screen and (min-width:768px){ 
+    .c-slide-wrapper{
+        font-size : 1rem;
+        width: 95%;
+    }
+}
+/* laptop desktop */
+@media only screen and (min-width:992px){
+    .c-slide-prev-control, .c-slide-next-control{
+        display: flex;
+    }
+    .c-slide{
+        overflow-x: hidden;
+    }
+    .c-slide-wrapper{
+        width: 980px;
+        font-size: 1rem;
+    }
+    .c-slide-item{
+        flex : 0 0 13.27rem;
+        margin: 1rem;
+    }
+    .card-new-price{
+        font-size: 1.25rem;
+    }
+}
+/* large desktop */
+@media only screen and (min-width: 1200px){
+    .c-slide-wrapper{
+        width: 1122px;
+    }
+    .c-slide-item{
+        flex : 0 0 15.5rem;
+        height: 21rem;
+    }
+    .card-img-top{
+        height: 205px;
+    }
+}
+@media only screen and (min-width: 1300px){
+    .c-slide-wrapper{
+        width: 1270px;
+    }
+    .c-slide-item{
+        flex: 0 0 13.86rem;
+    }
+    .card-img-top{
+        height: 190px;
+    }
+}
+@media only screen and (min-width: 1500px){
+    .c-slide-wrapper{
+        width: 1472px;
+    }
+    .c-slide-item{
+        flex : 0 0 262px;
+        padding: 1rem;
+        margin: 1rem;
+        height: 350px;
+    }
+    .card-img-top{
+        height: 210px;
+    }
+
+}
+
+

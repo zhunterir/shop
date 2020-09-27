@@ -2,16 +2,11 @@
     border: 1px solid black;
     padding: 5px;
 }
-.products-table {
-    margin-top: 2rem;
-}
+
 .products-table-col:first-child{
     border-right: 1px solid black;
 }
 .product-view-btn{
     min-width: 40px;
     padding: 5px;
-}
-.list-update-btn{
-    
 }

@@ -31,6 +31,13 @@
     border-radius: 0.25rem;
     appearance: none;
 }
+
+.modal-img{
+    max-width: 100%;
+}
+.main-pic-container{
+    border: 5px groove gold !important;
+}
 .form-input{
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;

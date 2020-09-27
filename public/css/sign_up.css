@@ -29,17 +29,6 @@ form {
     box-shadow: 0 4px 8px 0 gray;
     
 }
-form  *{
-    font-size: 20px;
-    margin: 10px 0;
-    padding: 10px; 
-}
-form input {
-    box-shadow: 2px 2px 10px 2px rgb(137, 138, 141);
-    border-radius: 2ex; 
-    border-style: none;
-    text-align: center; 
-}
 #submit-btn{
     padding: 10px 20px;
     align-self: center;
@@ -51,12 +40,7 @@ form input {
 #submit-btn:hover{
     cursor:pointer;
 }
-form a{
-    display: block;
-    text-decoration:1px underline dashed;
-    text-underline-offset: 10px;
-    color: rgb(129, 43, 79);
-}
+
 form a:visited{
     color:rgb(129, 43, 79);
 }

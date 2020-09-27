@@ -1,0 +1,26 @@
+.form{
+    min-width: 400px;
+    border-radius: 5px;
+    background-color: white;
+    width: 95%;
+    margin: auto;
+}
+body{
+    position: absolute;
+    display: table;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+}
+main{
+    background-color: #f5f5f5 !important;
+    display: table-cell;
+    vertical-align: middle;
+}
+@media only screen and (min-width:800px){
+    .form{
+        width: 30%;
+    }
+}

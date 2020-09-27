@@ -10,5 +10,14 @@
 }
 .order-info{
     padding: 0.5rem;
-    border-left:1px solid #b0b2b4;
+}
+.main-message{
+    width: 70%;
+    border-radius: 5px;
+}
+
+@media only screen and (min-width: 800px){
+    .order-info{
+        border-left:1px solid #b0b2b4;
+    }
 }
