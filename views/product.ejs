@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<head>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>محصول</title>
+    <link rel="stylesheet" href="/css/font-awesome/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/rtl.css">
+    <link rel="stylesheet" href="/css/product.css" type="text/css">
+
+   
+</head>
+
+<body>
+    <header>
+      
+      <div class="row col-12 main-row-tophead">
+            <div class="container">
+               <div class="row col-12">
+                <div class="col-12 col-md-4 box-form-tophead">
+                  <form class="form-inline form-search-tophead">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="جستجو"
+                      aria-label="Search">
+                  </form>              
+                </div>
+                <div class="col-12 col-md-4 box-image-logo"><img class="image-logo" src="./images/image-logo.png" alt=""></div>
+                <div class="col-12 col-md-4 ">
+                  <ul class="list-inline ul-tophead">
+                    <li class="list-inline-item login"><a  href="#">ورود</a></li>
+                    <li class="list-inline-item "><a class="signup" href="#">ثبت نام</a><a href="#" class="fa fa-user"></a></li>
+                    <li class="list-inline-item"><a  href="#"><span class="sabadkharid">سبد خرید</span><span class="fa fa-shopping-basket"></span></a></li>
+                 </ul>
+                </div>
+               </div>
+               <div class="row col-12" >
+                <nav class="navbar navbar-expand-lg navbar-light bg-light col-12 navigation-edit" >
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                    <ul class="navbar-nav mr-auto ul-navigation">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           لوازم اداری
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">گیره دوبل</a>
+                          <a class="dropdown-item" href="#">کلیپس مثلثی</a>
+                          <a class="dropdown-item" href="#">کلیپس رنگی</a>
+                          <a class="dropdown-item" href="#">کلیپس 5 سانت</a>
+                          <a class="dropdown-item" href="#">مگنت</a>
+                          <a class="dropdown-item" href="#">تخته پاکن</a>
+                          <a class="dropdown-item" href="#">کیف فایلی</a>
+                          <a class="dropdown-item" href="#">کاغذ</a>
+                          <a class="dropdown-item" href="#">دیوایدر</a>
+                          <a class="dropdown-item" href="#">منگنه</a>
+                          <a class="dropdown-item" href="#">زونکن</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           لوازم اتحریر و نوشت افزار
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">خودکار</a>
+                          <a class="dropdown-item" href="#">کلاسور</a>
+                          <a class="dropdown-item" href="#">یدک کلاسور</a>
+                          <a class="dropdown-item" href="#">کیف فانتزی</a>
+                          <a class="dropdown-item" href="#">کیف کش دار</a>
+                          <a class="dropdown-item" href="#">غلط گیر</a>
+                          <a class="dropdown-item" href="#">ماژیک</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           هدایا تبلیغاتی و همایش
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">پوشه دکمه دار</a>
+                          <a class="dropdown-item" href="#">طلق سینه</a>
+                          <a class="dropdown-item" href="#">بندآویز گردنی</a>
+                          <a class="dropdown-item" href="#">خودکار</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           امور چاپ
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">چاپ پوشه</a>
+                          <a class="dropdown-item" href="#">چاپ بند آویز</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+                
+              </div>
+            </div>
+      </div>
+
+    </header>
+
+    <main >
+      <!--  box product -->
+      <div class="container container-product ">
+        <form action="/users/addToCart" method="POST">
+          <div class="row col-12 main-row-product p-3">
+            <div class="col-12 col-md-4 box-image-product">
+              <img class="image-product" id="image-product" src="<%= prod.mainPicName?prod.mainPicName:prod.imgUrl[0].url?prod.imgUrl[0]:''%>" alt="">
+              <div class="container container-slider">
+                <div class="row col-12 main-row-slider">
+                  <div class="row col-12 row-slider">
+                    <div class="container">
+                     <section class="blog_section" >
+                       <div class="container" >
+                           <div class="blog_content" >
+                               <div class="owl-carousel owl-theme p-3" >                                                                                  
+                                <% for (let img of prod.imgUrl) { %>
+                                <div onclick="changePic(this)" class="blog_item">
+                                   <div class="blog_image">
+                                       <img class="img-fluid" style="width: 200px;" src="<%= img.url %>" alt="images not found">
+                                   </div>
+                                </div>
+                                <% } %>
+                               </div>
+                           </div>
+                       </div>
+                     </section>
+                    </div>
+                  </div>
+                </div>
+               </div>
+            </div>
+            <div class="col-12 col-md-8 box-product-info">
+              <div class="p-3"><h4><%= prod.title %></h4></div>
+              <!-- <div class="link-comment-info"><a href="#"> نظرات </a><a href="#"> نظرات </a></div> -->
+              <div class="p-3">برند: <%= prod.brand  %></div>
+              <% if (prod.colors.length !==0) {%>
+              <div class="color-box-info p-3">
+                <span>رنگ :</span>
+                <select name="color" class="custom-select w-auto" id="">
+                  <% for (let color of prod.colors){ %>  
+                    <option value="<%= color.color%>" ><%= colorMap[color] %></option> 
+                  <% } %>
+                </select>
+              </div>
+              <% } %>
+              <div class="price-box-info p-3">
+                <span>قیمت <%= prod.unit?'(هر '+ prod.unit+ ')':''%>: </span><br>
+                <div class="d-flex pr-2">
+                  <div class=" ml-3 sale-info"><%= prod.price %></div><div class="price-info"><%= prod.price - prod.sale  %> تومان</div>
+                </div>
+              </div>
+              <div class="p-3"><a class="btn btn-primary p-3" href="#">افزودن به سبد خرید</a></div>
+            </div>
+          </div>
+          <input type= "hidden" name= "id" value="<%= prod.id %>" >
+        </form>
+      </div>
+      <!-- box tabs -->
+      <div class="container container-product">
+        <div class="row col-12 row-comment-content">
+          <ul class="nav nav-tabs comment-nav-product col-12">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#home"><span class="fa fa-check-square"></span>نقد و بررسی</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu1"><span class="fa fa-list-ol"></span>مشخصات</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu2"><span class="fa fa-comments"></span>نظرات کاربران</a>
+            </li>
+          </ul>
+          
+          <!-- Tab panes -->
+          <div class="tab-content col-12">
+            <div class="tab-pane container active comment-content-box" id="home">
+              <p style="white-space:pre-wrap; line-height: 2rem;"><%= prod.about%></p>
+            </div>
+            <div class="tab-pane container fade comment-content-box" id="menu1">
+              <% if (prod.moreInfo) { %>
+                <ul>
+                  <% for (let info of prod.moreInfo) { %>
+                    <li class="p-2"><%= info.title %>:  <%= info.value %></li>
+                    <% } %>
+                </ul>
+              <% } %>
+
+            </div>
+            <div class="tab-pane container fade comment-content-box" id="menu2">
+              <form class="form-footer form-comment">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="نام">
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" id="exampleInputPassword1" placeholder="ایمیل">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="شماره تماس">
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" placeholder="پیام"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">ارسال</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    
+    <footer class="footer-tag">
+      <div class="container">
+        <div class="row col-12 main-row-footer">
+          <div class="col-12 col-md-4 first-box-footer">
+            <div><h4>تماس با ما</h4></div>
+            <div>مازندران - سه راه دانشگاه -روبه روی داشنگاه</div>
+            <div>011222222</div>
+            <div><h4>درباره ما</h4></div>
+            <div><p>هدف اصلی ما از ایجاد این توزیع هر چه آسان تر انواع لوازم التحریر می باشد . همچنین پذیرای سفارش شما عزیزان می باشیم</p></div>
+          </div>
+          <div class="col-12 col-md-4 box-form-footer">
+            <form class="form-footer">
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="نام">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" id="exampleInputPassword1" placeholder="ایمیل">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="شماره تماس">
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" placeholder="پیام"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">ارسال</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row col-12 last-row-footer">
+        <div class="container">
+          <p>کلیه حقوق این سایت متعلق به شرکت مذکور می باشد</p>
+        </div>
+      </div>
+    </footer>
+      
+   
+
+
+
+
+<script src="/js/jquery-3.5.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.autoplay.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+
+
+
+<script>
+
+// window.onscroll = function () {
+//         scrollFunction()
+//     };
+//   function scrollFunction() {
+//         if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+//             document.getElementById("header-top").style.top = "0";
+//             $('.header').addClass('custom');
+//         } else {
+//             document.getElementById("header-top").style.top = "0";
+//             $('.header').removeClass('custom');
+
+//         }
+//     }
+
+
+// Set the date we're counting down to
+var countDownDate = new Date("2020-09-20").getTime();
+
+var x = setInterval(function() {
+
+var now = new Date().getTime();
+
+var distance = countDownDate - now;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+document.getElementById("demo").innerHTML = days + "d " + hours + "h "
++ minutes + "m " + seconds + "s ";
+
+if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "تمام شده";
+}
+}, 1000);
+
+
+
+/////////////////////////////////////////////////////// carosel slider
+
+$('.owl-carousel').owlCarousel({
+    loop:false,
+    margin:10,
+    dots:false,
+    nav:true,
+    autoplay:false,   
+    smartSpeed: 200, 
+    // autoplayTimeout:7000,
+    // responsive:{
+    //     0:{
+    //         items:1
+    //     },
+    //     600:{
+    //         items:2
+    //     },
+    //     1000:{
+    //         items:3
+    //     }
+    // }
+})
+
+
+/////////////////////////////////////////////////////// carosel slider
+
+
+</script>
+<script src="/js/product.js"></script>
+</body>
+
+
+</head>

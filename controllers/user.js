@@ -6,7 +6,6 @@ const Joi = require("joi");
 const router = express.Router();
 const {User , validateSignup , validateSignin , validateUpdate} = require('../models/user.js');
 
-
 router.post('/register' , async (req , res)=>{
     var {error} = validateSignup(req.body);
     // if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});

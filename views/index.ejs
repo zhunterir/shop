@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<head>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>سایت فروش لوازم التحریر</title>
+    <link rel="stylesheet" href="/css/font-awesome/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/rtl.css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+   
+</head>
+
+<body>
+    <header>
+      
+      <div class="row col-12 main-row-tophead">
+            <div class="container">
+               <div class="row col-12">
+                <div class="col-12 col-md-4 box-form-tophead">
+                  <form class="form-inline form-search-tophead">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="جستجو"
+                      aria-label="Search">
+                  </form>              
+                </div>
+                <div class="col-12 col-md-4 box-image-logo"><img class="image-logo" src="./images/image-logo.png" alt=""></div>
+                <div class="col-12 col-md-4 ">
+                  <ul class="list-inline ul-tophead">
+                    <div class="modal fade" id="sigupModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="signInModalTitle">ثبت نام </h5>
+                                  <button type="button" class="close mr-auto ml-0 p-2" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="container">
+                                  <div class="modal-body edit-modal-body">
+                                      <ul>
+                                          <li class="small">گذر واژه باید حداقل 6 حرفی باشد.</li>
+                                      </ul>
+                                      <div id="registerWarning" class="row mb-2 collapse c-warning">
+                                          <div class="c-warning-header align-items-center px-2 d-flex w-100">
+                                              <span>هشدار </span>
+                                              <button class="close mr-auto ml-0 p-1" type="button" data-toggle="collapse" data-target="#registerWarning" aria-expanded="false" aria-controls="collapseExample">
+                                                  <span aria-hidden="true">&times;</span>
+                                              </button>
+                                          </div>
+                                          <div id="registerWarningBody" class="w-100 p-2">هشدار</div>
+                                      </div>
+                                      <form action = "/users/signup" method="POST" id="signupForm" novalidate>
+                                          <div class="row">
+                                              <input class="w-100 mb-3 p-2 modal-input valid-input"  name="fname" placeholder="نام" type="text" required>
+                                              <span class="modal-error"></span>
+                                          </div>
+                                          <div class="row mb-3">
+                                              <input class="w-100 p-2 modal-input valid-input"  name="lname" placeholder= "نام خانوادگی" type="text" required>
+                                              <span class="modal-error"></span>
+                                          </div>
+                                          <div class="row mb-3">
+                                              <input class="w-100  p-2 modal-input valid-input" id="signUpPass" name="password" maxlength="20" placeholder="گذر واژه" type="password" required>
+                                              <span class="modal-error"></span>
+                                          </div>
+                                          <div class="row mb-3">
+                                              <input class="w-100 p-2 modal-input valid-input" id="signUpRePass" name="repassword" maxlength="20" placeholder="تکرار گذر واژه" type="password" required>
+                                              <span class="modal-error"></span>
+                                          </div>
+                                          <div class="row mb-2">   
+                                          <div class="col-12 col-sm-6">
+                                          <input type="text" name="mobile" class="p-2 modal-input" id="mobile-register" pattern="^09\d+$" placeholder="موبایل"  maxlength="11" minlength="11" class="modal-input" required>
+                                          <span class="modal-error"></span>
+                                          </div>
+                                          <button type="button" id="registerCodeRequest" class="btn col-xs-12 col-sm-5 btn-dark code-request-btn mr-auto send-button" disabled>ارسال کد فعال سازی</button>
+                          
+                                          </div>
+                                          <div class="row">
+                                              <input  style="display:none" type="text" id="code-input" name="code" class="modal-input col-12 col-sm-6 p-2" placeholder="کد فعال سازی" required>
+                                          </div>
+                                          <div class="row align-items-center">
+                                              <p>
+                                                  <input id="ruleCheck" name="ruleAccept" required type="checkbox" >
+                                                  <strong class="mr-1">تمامی <a href="/store/قوانین و مقررات" > قوانین و مقررات</a> را می پذیرم</strong>
+                                              </p>
+                                          </div>
+                                          <div class="row mt-3">
+                                              <button class="btn btn-primary w-100" id="modal-submit-btn" type="submit" disabled>ثبت نام</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                                  <div class="row">
+                                      <a id="haveAccountBtn" class="py-3 w-100 bg-light text-center">
+                                      حساب کاربری دارید؟
+                                      </a>
+                                  </div>
+                              </div>
+                                  
+                          </div>
+                              
+                      </div>
+                    </div>
+                    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
+                      <div class="modal-dialog signin-modal modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="signInModalTitle"> ورود </h5>
+                            <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="container">
+                              <div class="modal-body edit-modal-body">
+                                  <form action="/users/login" method="POST">
+                                      <div class="row">
+                                          <input class="w-100 mb-3 p-2 register-input" id="loginMobile" name="mobile" placeholder="موبایل" type="text" required>
+                                      </div>
+                                      <div class="row">
+                                          <input class="w-100 mb-3 p-2 register-input" id="loginPass" name="password" placeholder="گذر واژه" type="password" required>
+                                      </div>
+                                      <div class="row mb-2">
+                                          <button id="signin-btn" type="submit" class=" w-100 btn col-xs-12 btn-primary " >ورود</button>
+                                      </div>
+                                  </form>
+                              </div>
+                              <div class="row">
+                                  <a id="passRecoverBtn" class="py-3 w-100 text-center">
+                                      بازیابی  گذرواژه
+                                  </a>
+                              </div>
+                              <div class="row">
+                                  <a id="createAccountBtn" class="py-3 w-100 bg-light text-center">
+                                      ایجاد حساب کاربری
+                                  </a>
+                              </div>
+                              
+                          
+                          </div>
+                          
+                      </div>
+                    </div>
+                    </div>
+                    <li class="list-inline-item login" type="button"  data-toggle="modal" data-target="#signinModal">ورود</li>
+                    <li class="list-inline-item " type="button"  data-toggle="modal" data-target="#sigupModal"><a class="signup" href="#">ثبت نام</a><a href="#" class="fa fa-user"></a></li>
+                    <li class="list-inline-item"><a  href="#"><span class="sabadkharid">سبد خرید</span><span class="fa fa-shopping-basket"></span></a></li>
+                 </ul>
+                </div>
+               </div>
+               <div class="row col-12" >
+                <nav class="navbar navbar-expand-lg navbar-light bg-light col-12 navigation-edit" >
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                    <ul class="navbar-nav mr-auto ul-navigation">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           لوازم اداری
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">گیره دوبل</a>
+                          <a class="dropdown-item" href="#">کلیپس مثلثی</a>
+                          <a class="dropdown-item" href="#">کلیپس رنگی</a>
+                          <a class="dropdown-item" href="#">کلیپس 5 سانت</a>
+                          <a class="dropdown-item" href="#">مگنت</a>
+                          <a class="dropdown-item" href="#">تخته پاکن</a>
+                          <a class="dropdown-item" href="#">کیف فایلی</a>
+                          <a class="dropdown-item" href="#">کاغذ</a>
+                          <a class="dropdown-item" href="#">دیوایدر</a>
+                          <a class="dropdown-item" href="#">منگنه</a>
+                          <a class="dropdown-item" href="#">زونکن</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           لوازم اتحریر و نوشت افزار
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">خودکار</a>
+                          <a class="dropdown-item" href="#">کلاسور</a>
+                          <a class="dropdown-item" href="#">یدک کلاسور</a>
+                          <a class="dropdown-item" href="#">کیف فانتزی</a>
+                          <a class="dropdown-item" href="#">کیف کش دار</a>
+                          <a class="dropdown-item" href="#">غلط گیر</a>
+                          <a class="dropdown-item" href="#">ماژیک</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           هدایا تبلیغاتی و همایش
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">پوشه دکمه دار</a>
+                          <a class="dropdown-item" href="#">طلق سینه</a>
+                          <a class="dropdown-item" href="#">بندآویز گردنی</a>
+                          <a class="dropdown-item" href="#">خودکار</a>
+                        </div>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           امور چاپ
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">چاپ پوشه</a>
+                          <a class="dropdown-item" href="#">چاپ بند آویز</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+                
+              </div>
+            </div>
+      </div>
+
+    </header>
+
+    <main >
+      <!-- background image -->
+      <div class="row col-12 box-background">
+      </div>
+      <!-- slider -->
+      <div class="container container-slider">
+       <div class="row col-12 main-row-slider">
+         <div class="row col-12 title-slider">لوازم آرایشی</div>
+         <div class="row col-12 row-slider">
+           <div class="container">
+            <section class="blog_section" >
+              <div class="container" >
+                  <div class="blog_content" >
+                      <div class="owl-carousel owl-theme" >
+                          <div class="blog_item" >
+                              <div class="blog_image">
+                                  <img class="img-fluid" style="width: 200px;" src="./images/makeup.jpg" alt="images not found">
+                              </div>
+                              <div class="blog_details">
+                                  <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                  <a class="btn btn-primary" href="#">خرید محصول</a>
+                              </div>
+                          </div>                        
+                          <div class="blog_item">
+                              <div class="blog_image">
+                                  <img class="img-fluid" style="width: 200px;" src="./images/makeup2.jpg" alt="images not found">
+                              </div>
+                              <div class="blog_details">
+                                <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                <a class="btn btn-primary" href="#">خرید محصول</a>
+                              </div>
+                          </div>                        
+                          <div class="blog_item">
+                              <div class="blog_image">
+                                  <img class="img-fluid" style="width: 200px;" src="./images/makeup3.jpg" alt="images not found">
+                              </div>
+                              <div class="blog_details">
+                                <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                <a class="btn btn-primary" href="#">خرید محصول</a>
+                              </div>
+                          </div>
+                          <div class="blog_item">
+                            <div class="blog_image">
+                                <img class="img-fluid" style="width: 200px;" src="./images/makeup4.jpg" alt="images not found">
+                            </div>
+                            <div class="blog_details">
+                              <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                              <a class="btn btn-primary" href="#">خرید محصول</a>
+                            </div>
+                        </div>
+                        <div class="blog_item">
+                          <div class="blog_image">
+                              <img class="img-fluid" style="width: 200px;" src="./images/makeup5.jpg" alt="images not found">
+                          </div>
+                          <div class="blog_details">
+                            <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                            <a class="btn btn-primary" href="#">خرید محصول</a>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+            </section>
+           </div>
+         </div>
+       </div>
+      </div>
+       <!-- slider -->
+       <div class="container container-slider">
+        <div class="row col-12 main-row-slider">
+          <div class="row col-12 title-slider">لوازم آرایشی</div>
+          <div class="row col-12 row-slider">
+            <div class="container">
+             <section class="blog_section" >
+               <div class="container" >
+                   <div class="blog_content" >
+                       <div class="owl-carousel owl-theme" >
+                           <div class="blog_item" >
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                   <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                   <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>                        
+                           <div class="blog_item">
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup2.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                 <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                 <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>                        
+                           <div class="blog_item">
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup3.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                 <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                 <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>
+                           <div class="blog_item">
+                             <div class="blog_image">
+                                 <img class="img-fluid" style="width: 200px;" src="./images/makeup4.jpg" alt="images not found">
+                             </div>
+                             <div class="blog_details">
+                               <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                               <a class="btn btn-primary" href="#">خرید محصول</a>
+                             </div>
+                         </div>
+                         <div class="blog_item">
+                           <div class="blog_image">
+                               <img class="img-fluid" style="width: 200px;" src="./images/makeup5.jpg" alt="images not found">
+                           </div>
+                           <div class="blog_details">
+                             <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                             <a class="btn btn-primary" href="#">خرید محصول</a>
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+             </section>
+            </div>
+          </div>
+        </div>
+       </div>
+       <!-- slider -->
+       <div class="container container-slider">
+        <div class="row col-12 main-row-slider">
+          <div class="row col-12 title-slider">لوازم آرایشی</div>
+          <div class="row col-12 row-slider">
+            <div class="container">
+             <section class="blog_section" >
+               <div class="container" >
+                   <div class="blog_content" >
+                       <div class="owl-carousel owl-theme" >
+                           <div class="blog_item" >
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                   <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                   <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>                        
+                           <div class="blog_item">
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup2.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                 <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                 <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>                        
+                           <div class="blog_item">
+                               <div class="blog_image">
+                                   <img class="img-fluid" style="width: 200px;" src="./images/makeup3.jpg" alt="images not found">
+                               </div>
+                               <div class="blog_details">
+                                 <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                                 <a class="btn btn-primary" href="#">خرید محصول</a>
+                               </div>
+                           </div>
+                           <div class="blog_item">
+                             <div class="blog_image">
+                                 <img class="img-fluid" style="width: 200px;" src="./images/makeup4.jpg" alt="images not found">
+                             </div>
+                             <div class="blog_details">
+                               <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                               <a class="btn btn-primary" href="#">خرید محصول</a>
+                             </div>
+                         </div>
+                         <div class="blog_item">
+                           <div class="blog_image">
+                               <img class="img-fluid" style="width: 200px;" src="./images/makeup5.jpg" alt="images not found">
+                           </div>
+                           <div class="blog_details">
+                             <div class="box-price"><span>50,000</span><span>تومان</span></div>
+                             <a class="btn btn-primary" href="#">خرید محصول</a>
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+             </section>
+            </div>
+          </div>
+        </div>
+       </div>
+    </main>
+
+    
+    <footer class="footer-tag">
+      <div class="container">
+        <div class="row col-12 main-row-footer">
+          <div class="col-12 col-md-4 first-box-footer">
+            <div><h4>تماس با ما</h4></div>
+            <div>مازندران - سه راه دانشگاه -روبه روی داشنگاه</div>
+            <div>011222222</div>
+            <div><h4>درباره ما</h4></div>
+            <div><p>هدف اصلی ما از ایجاد این توزیع هر چه آسان تر انواع لوازم التحریر می باشد . همچنین پذیرای سفارش شما عزیزان می باشیم</p></div>
+          </div>
+          <div class="col-12 col-md-4 box-form-footer">
+            <form class="form-footer">
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="نام">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" id="exampleInputPassword1" placeholder="ایمیل">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="شماره تماس">
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" placeholder="پیام"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">ارسال</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row col-12 last-row-footer">
+        <div class="container">
+          <p>کلیه حقوق این سایت متعلق به شرکت مذکور می باشد</p>
+        </div>
+      </div>
+    </footer>
+      
+   
+
+
+
+<script src="./js/main-modal.js"></script>
+<script src="./js/jquery-slim.js"></script>
+<script src="./js/jquery-3.5.1.slim.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/owl.autoplay.js"></script>
+<script src="./js/owl.carousel.min.js"></script>
+
+
+<script>
+
+// window.onscroll = function () {
+//         scrollFunction()
+//     };
+//   function scrollFunction() {
+//         if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+//             document.getElementById("header-top").style.top = "0";
+//             $('.header').addClass('custom');
+//         } else {
+//             document.getElementById("header-top").style.top = "0";
+//             $('.header').removeClass('custom');
+
+//         }
+//     }
+
+
+// Set the date we're counting down to
+var countDownDate = new Date("2020-09-20").getTime();
+
+var x = setInterval(function() {
+
+var now = new Date().getTime();
+
+var distance = countDownDate - now;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+document.getElementById("demo").innerHTML = days + "d " + hours + "h "
++ minutes + "m " + seconds + "s ";
+
+if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "تمام شده";
+}
+}, 1000);
+
+
+
+/////////////////////////////////////////////////////// carosel slider
+
+$('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    dots:false,
+    nav:true,
+    autoplay:true,   
+    smartSpeed: 3000, 
+    autoplayTimeout:7000,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:3
+        }
+    }
+})
+
+
+/////////////////////////////////////////////////////// carosel slider
+
+
+</script>
+
+</body>
+
+
+</head>

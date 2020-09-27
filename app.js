@@ -13,7 +13,8 @@ let csurf = require('csurf');
 let mongoDBStore = require('connect-mongodb-session')(session);
 let sessionStore = new mongoDBStore({
     uri: "mongodb://localhost/shopDB",
-    collection:'sessions' 
+    collection:'sessions',
+    expires: 1000 * 60 * 60 * 24, 
 });
 let csrfProtection = csurf();
 mongoose.set('useFindAndModify', false);

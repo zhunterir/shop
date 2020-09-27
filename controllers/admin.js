@@ -48,61 +48,98 @@ async function addOrUpdateProduct(req,res, productID){
   let form = new formidable.IncomingForm();
     form.parse(req, async function (err, fields, files) {
       let product =null;
-      let {title, category, price ,count, sale, about,captcha,colors, callOrderOnly, sellPermit,infCount, ...rest} =fields;
+      let {title, category, price ,count, sale, about,captcha,colors,toDeletePics, unit, callOrderOnly, sellPermit,infCount, mainPicName, ...rest} =fields;
       colors = JSON.parse(colors);
       count = infCount? Infinity: +count;
       console.log(fields);
-      let {error}=addProductValidator({title, category, price, count, sale, about, captcha, colors, callOrderOnly, sellPermit} ,rest);
+      let {error}= addProductValidator({title, category, price, count, sale, about, captcha, colors, callOrderOnly, sellPermit} ,rest);
       if (!error){
         if (productID){
           product= await Product.findOne({id: productID});
           product.title = title, product.category= category, product.price =price, product.count= count,
           product.sale= (sale?+sale: 0), product.about= about, product.colors = colors, product.callOrderOnly =callOrderOnly, 
-          product.sellPermit = sellPermit;
+          product.sellPermit = sellPermit, product.unit= unit ;
           product.moreInfo = [];
         }
         else{
           let uniq=uniqid.process();
           product= new Product({id:uniq, title: title, category: category
             ,price: +price, count: count, sale: (sale?+sale:0), about: about, colors: colors,
-             callOrderOnly: callOrderOnly, sellPermit:sellPermit });
+            callOrderOnly: callOrderOnly, sellPermit:sellPermit, unit: unit});
         }
         let size = getObjectSize(rest);
-        for (let i=0; i<size; i++){
-          product.moreInfo.push({title: rest['infoTitle'+i], value: rest['infoValue'+i]});
-        }
-        if (files.picture.size !==0){
-          if (validImageTypes.includes(files.picture.type)){
-            oldPath = files.picture.path;
-            let uniq=uniqid.process();
-            let fileName= uniq +'.'+files.picture.type.split('/')[1];
-            let newPath = path.join(__dirname,'..','public','product-images', fileName);
-            fs.rename(oldPath, newPath, async function (err) {
-              if (err){
-                console.log(err);
-                return res.redirect('/admin/add-product?error=مجددا تلاش کنید');
-              }
-              console.log(newPath);
-              if (productID!==undefined && product.imgUrl!==''){
-                fs.rmdir(path.join(__dirname, '..','public',product.imgUrl),(err)=>{
-                  console.log(err);
-                });
-              }
-              product.imgUrl= '/product-images/'+fileName;
-              await product.save();
-              console.log('saved');
-              return res.redirect('/admin')
-            });
+        let char;
+        for (let item in rest){
+          char = item[item.length-1];
+          if (item.toString().startsWith('infoTitle')){
+            product.moreInfo.push({title: rest[item], value: rest['infoValue'+char]});
+            delete rest['infoValue'+char];
           }
+          else if(item.toString().startsWith('infoValue')){
+            product.moreInfo.push({title: rest['infoTitle'+char], value: rest[item]});
+            delete rest['infoTitle'+char];
+          }
+        }
+        mainPicName= mainPicName.replace(/\//gi,'\\');
+        for (let url of JSON.parse(toDeletePics)){
+          console.log('url', url);
+          let index= product.imgUrl.findIndex((value, index,obj0)=>{
+            return value.url==url?true:false;
+          })
+          if (index!==-1){
+            if (product.imgUrl[index].name==product.mainPicName){
+              product.mainPicName = '';
+            }
+            product.imgUrl.splice(index, 1);
+            try {
+              fs.unlinkSync(path.join(__dirname, '..','public', url));
+            } catch (error) {
+              console.log(err);
+              return res.sendStatus(500); 
+            }
+          }   
           else{
-            console.log('invalid picture type');
-            return res.redirect('/admin/add-product?error=فرمت عکس نامعتبر است.');
+            console.log('not found');
           }
         }
-        else{
+        if ( !files ){
           await product.save();
+          console.log('saved');
           return res.redirect('/admin')
         }
+        if (mainPicName.startsWith('/product-images')){
+          product.mainPicName = mainPicName;
+        }
+        for(let file in files){
+          if (files[file].size !==0){
+            if (validImageTypes.includes(files[file].type)){
+              oldPath = files[file].path;
+              let uniq=uniqid.process();
+              let fileName= uniq +'.'+files[file].type.split('/')[1];
+              let newPath = path.join(__dirname,'..','public','product-images', fileName);
+              try {
+                fs.renameSync(oldPath, newPath)
+                console.log(newPath);
+                if (file==mainPicName){
+                  console.log('main', file);
+                  product.mainPicName = newPath.substring(newPath.indexOf('\\product'))
+                }
+                product.imgUrl.push({url:'/product-images/'+ fileName, name:file.toString()});
+              } catch (error) {
+                console.log(error);
+                return res.sendStatus(500); 
+              }
+             
+            }
+            else {
+              console.log('invalid picture type');
+              return res.redirect('/admin/add-product?error=فرمت عکس نامعتبر است.');
+            }
+          }
+        }
+        await product.save()
+        console.log('saved');
+        return res.redirect('/admin')
       }
       else{
         console.log(error);
@@ -115,7 +152,7 @@ async function addOrUpdateProduct(req,res, productID){
   //////////////////////////////////////////
 router.get('/add-product',isAuth, (req, res , next)=>{
   let categories = loadPrefs().categories;
-  return res.render('add-product',{'categories': categories,error: '',path:'add-product', csrfToken: req.csrfToken()});
+  return res.render('add-product',{'categories': categories,error: '', path:'add-product'});
 });
 router.post('/add-product', isAuth,(req, res, next)=>{
   return addOrUpdateProduct(req, res, undefined);
@@ -137,21 +174,48 @@ router.post('/add-product', isAuth,(req, res, next)=>{
 //     return res.send(JSON.stringify(product));
 //   })
 // });
+// router.post('/products/deleteImage',async (req ,res ,next)=>{
+//   let prodId = req.body.prodId;
+//   let url = req.body.url;
+//   let product= await Product.findOne({id: prodId});
+  
+//   let index= product.imgUrl.findIndex((value, index,obj0)=>{
+//     return value.url==url?true:false;
+//   })
+//   if (index!==-1){
+//     if (product.imgUrl[index].name==product.mainPicName){
+//       product.mainPicName = '';
+//     }
+//     product.imgUrl.splice(index);
+//     fs.unlink(path.join(__dirname, '..','public', url),(err)=>{
+//       if (err){
+//         console.log(err);
+//         return res.sendStatus(500);
+//       }
+//       return res.sendStatus(200);
+//     });
 
+//   }
+
+// })
 router.post('/products/edit',isAuth, async (req, res, next)=>{
   return await addOrUpdateProduct(req,res, req.query.id);
 });
-
 router.get('/products/edit/:productID',isAuth, (req, res, next)=>{
   let categories = loadPrefs().categories;
   Product.findOne({id: req.params.productID},(err, doc)=>{
-    if (err){
-      return res.sendStatus(404).send('<p>product with ID:'+req.params.productID+' not found</p>');
+    if (err || !doc){
+      console.log("error465465", err);
+      console.log('doc', doc);
+      return res.sendStatus(404)
     }
-    doc.colorsStr = JSON.stringify(doc.colors);
-    console.log(doc.colors);
+    if (doc.colors){
+      doc.colorsStr = JSON.stringify(doc.colors);
+      console.log(doc.colors);
+    }
+    doc.mainPicName= doc.mainPicName.replace(/\\/gi,'/');
     return res.render('admin-edit-product',{categories: categories, path:'',action:'edit', product: doc, error:''})
-  })
+  });
 });
 
 router.get('/products/search', isAuth, (req, res, next)=>{
@@ -180,6 +244,70 @@ router.get('/products/search', isAuth, (req, res, next)=>{
     return res.json([]);
   }
 });
+router.post("/products/delete",isAuth, async (req, res, next)=>{
+  let result = await Product.deleteOne({id: req.body.id});
+  if (res)
+    return res.redirect('/admin/products?message=delete_ok');
+  else 
+    return res.redirect('/admin/products?message=delete_error');
+});
+router.get('/products/:productID', (req, res, next)=>{
+  let categories=  loadPrefs().categories;
+  console.log('product view');
+  Product.findOne({id: req.params.productID},(err, doc)=>{
+    if (err){
+      return res.sendStatus(500);
+    }
+    if(!doc)
+      return res.sendStatus(404);
+    let mainPic = doc.imgUrl.find((value, index, obj)=>{
+      return value.name== doc.mainPicName?true:false;
+    });
+    doc.mainPic = mainPic;
+    doc.colorsStr = JSON.stringify(doc.colors);
+    doc.mainPicName= doc.mainPicName.replace(/\\/gi,'/');
+    return res.render('admin-edit-product', {categories: categories, path:'', action:'view', product: doc, error:''});
+
+  });
+});
+router.get('/products',isAuth, (req, res ,next)=>{
+  let categories = loadPrefs().categories;
+  let query= Product.find().sort('title').select('title price sale id count').limit(prodPageLim+1);
+  let options= {};
+  options.sort = 'title';
+  if (!req.query.page){
+    options.page = '1';
+  }
+  else{
+    options.page = req.query.page;
+    query.skip((+req.query.page - 1) * prodPageLim); 
+
+  }
+  if ( req.query.category){
+    query.where('category').equals(req.query.category);
+  }
+  options['listCategory']= req.query.category || '';
+
+  query.exec((err, products)=>{
+    if (err){
+      console.log(err);
+      return res.sendStatus(500);
+    }
+    if (! products[10]){
+      options.isLastPage = true;
+    }
+    else{
+      products.splice(10, 1);
+    }
+    console.log(categories);
+    res.render('admin-products', {options: options, categories: categories, products: products, path: 'products', message: req.query.message,succeed:null, error:null});
+  })
+});
+
+router.get('/', isAuth, (req, res, next)=>{
+  let categories = loadPrefs().categories;
+  return res.render('admin-main', {categories:categories, path: ''}); 
+});
 router.get("/orders", isAuth, async (req, res, next)=>{
   // if (! req.session.isLoggedIn){
   //   return res.redirect('/admin/login');
@@ -200,7 +328,7 @@ router.get("/orders", isAuth, async (req, res, next)=>{
   if (req.query.sort){
     if (req.query.sort =='orderDate-asc'){
       query.sort({orderDate:1});
-      options.sort = 'orderDate-asc'
+      options.sort = 'orderDate-asc';
     }
     else{
       query.sort({orderDate:-1});
@@ -272,14 +400,15 @@ router.post('/orders/changeToCancelled', isAuth, async (req, res, next)=>{
   await order.save();
   res.redirect("/admin/orders/"+req.body.orderNo);
 })
-router.post("/orders/changeToDelivered", isAuth, async  (req ,res ,next)=>{
+router.post("/orders/changeToDelivered", isAuth, async (req ,res ,next)=>{
   if (! req.session.isLoggedIn){
     return res.redirect('/admin/login')
   }
   let scheme = Joi.object({
+    _csrf: Joi.string(),
     orderNo: Joi.string().max(7).required(),
-    date: Joi.string().regex(/^\d{4}\/\d{1,2}\/\d{1,2}$/) 
-  })
+    date: Joi.string().regex(/^\d{4}\/\d{1,2}\/\d{1,2}$/)
+  });
   let {error} = scheme.validate(req.body);
   if (! error){
     let order = await Order.findOne().where('orderNo').equals(req.body.orderNo).exec();
@@ -341,61 +470,7 @@ router.get("/orders/:id", isAuth, async (req, res ,next)=>{
 //     })
 //   }
 // });
-router.get('/products/:productID',isAuth, (req, res, next)=>{
-  let categories=  loadPrefs().categories;
-  Product.findOne({id: req.params.productID},(err, doc)=>{
-    if (err){
-      return res.sendStatus(404);
-    }
-    doc.colorsStr = JSON.stringify(doc.colors);
-    return res.render('admin-edit-product',{categories: categories, path:'', action:'view', product: doc, error:''})
-  })
-});
-router.post("/products/delete",isAuth, async (req, res, next)=>{
-  let result = await Product.deleteOne({id: req.body.id});
-  if (res)
-    return res.redirect('/admin/products?message=delete_ok');
-  else 
-    return res.redirect('/admin/products?message=delete_error');
-});
-router.get('/products',isAuth, (req, res ,next)=>{
-  let categories = loadPrefs().categories;
-  let query= Product.find().sort('title').select('title price sale id count').limit(prodPageLim+1);
-  let options= {};
-  options.sort = 'title';
-  if (!req.query.page){
-    options.page = '1';
-  }
-  else{
-    options.page = req.query.page;
-    query.skip((+req.query.page - 1) * prodPageLim); 
 
-  }
-  if ( req.query.category){
-    query.where('category').equals(req.query.category);
-  }
-  options['listCategory']= req.query.category || '';
-
-  query.exec((err, products)=>{
-    if (err){
-      console.log(err);
-      return res.sendStatus(500);
-    }
-    if (! products[10]){
-      options.isLastPage = true;
-    }
-    else{
-      products.splice(10, 1);
-    }
-    console.log(categories);
-    res.render('admin-products', {options: options, categories: categories, products: products, path: 'products', message: req.query.message,succeed:null, error:null});
-  })
-});
-
-router.get('/', isAuth, (req, res, next)=>{
-  let categories = loadPrefs().categories;
-  return res.render('admin-main', {categories:categories, path: ''}); 
-});
 router.get('/signup' , (req , res)=>{
     return res.render('sign_up_admin');
 });
@@ -437,23 +512,31 @@ router.get('/update' , (req , res, next)=>{
 
 
 router.post('/login' , async(req , res)=>{
-    // var {error} = validateSignin(req.body);
-    // console.log(error);
-    // if (error) return res.status(400).render('result' , { result : error.details[0].message.replace(/['"]+/g, '')});
-    var admin = await Admin.findOne({username : req.body.username});
+    console.log('login');
+    var {error} = validateSignin(req.body);
+    if (error){
+      console.log(error);
+      req.flash('error', 'نام کاربری یا رمز عبور اشتباه است.')
+      return res.redirect('/admin/login')
+    } 
+    let admin = await Admin.findOne({username : req.body.username});
     if(!admin){
-      req.flash('error', 'نام کاربری یافت نشد');
+      console.log('admin not found');
+      req.flash('error', '.نام کاربری یافت نشد');
       return res.redirect('/admin/login')
     }
     var validatePass = await bycrypt.compare(req.body.password , admin.password);
     if(!validatePass){
-      req.flash('error', 'رمز عبور اشتباه است')
+      console.log('invalid pass');
+      req.flash('error', '.رمز عبور اشتباه است')
       return res.redirect('/admin/login');
     }
     // req.session.admin = admin;
     req.session.isLoggedIn =  true;
-    await req.session.save();
-    return res.redirect('/admin');  
+    req.session.admin= admin;
+    req.session.save(()=>{
+      return res.redirect('/admin');  
+    });
 });
 router.post('/update' , async(req , res)=>{
     var {error} = validateUpdate(req.body);

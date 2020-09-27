@@ -96,11 +96,11 @@
                                     <input type="text" name="mobile" class="p-2 modal-input" id="mobile-register" pattern="^09\d+$" placeholder="موبایل"  maxlength="11" minlength="11" class="modal-input" required>
                                     <span class="modal-error"></span>
                                 </div>
-                                <input type="hidden" name="_csrf" value=" <%= csrfToken %>">
+                                <input type="hidden" id="csrf" name="_csrf" value="<%=csrfToken%>">
                                 <button type="button" id="registerCodeRequest" class="btn col-xs-12 col-sm-5 btn-dark code-request-btn mr-auto" disabled>ارسال کد فعال سازی</button>
-                
                                 </div>
                                 <div class="row">
+                                    <span class="modal-error" id="code-error"></span>
                                     <input  style="display:none" type="text" id="code-input" name="code" class="modal-input col-12 col-sm-6 p-2" placeholder="کد فعال سازی" required>
                                 </div>
                                 <div class="row align-items-center">

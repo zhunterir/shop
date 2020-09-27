@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min4.3.1.css">
+    <link rel="stylesheet" href="/css/font-awesome/all.min.css">
     <link rel="stylesheet" href="/css/public.css">
     <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/add-product.css">
@@ -14,17 +15,15 @@
     <%- include('./admin-nav', {'categories':categories, 'path': path}) %>
     <main class="main-content">
         <h4 class="form-header mb-0">افزودن کالای جدید</h4>
-        <% if(error){ %>
-            <p style='color:red;font-weight:bold; background-color: rgb(255, 255, 255);padding: 10px; text-align: auto;'>دوباره امتحان کنید</p>  
+        <% if (error){ %>
+            <p style='color:red; font-weight:bold; background-color: rgb(255, 255, 255);padding: 10px; text-align: auto;'>دوباره امتحان کنید</p>  
         <% } %>
-        <form action="/admin/add-product" method="POST" class="form-add-product"  enctype="multipart/form-data">
+        <form action="/admin/add-product?_csrf=<%=csrfToken%>" method="POST" id="form" enctype= "multipart/form-data" class="form-add-product">
+            <input type="hidden" name="toDeletePics" value="[]">
             <div class="form-add-product__row mt-2">
                 <div class="product-image-container">
-                    <img src=""class="pic-preview" id="mirror" alt="">
-                    <div class="upload-btn-wrapper">
-                        <button class="btn btn-info" type="button" onclick="trigger();">افزودن عکس</button>
-                        <input type="file" id="pic-btn" onchange="preview(this);" accept=".jpg, .jpeg, .png, .gif" name="picture" >
-                    </div>
+                    <!-- <img src="" class="pic-preview" id="mirror" alt=""> -->
+                    <button class="btn ml-auto btn-success m-3" type="button" data-target="#pictureModal" data-toggle="modal">افزودن عکس</button>
                     <span id='id-image-invalid-text'>عکس با فرمت های jpeg , jpg, png یا gif مجاز می باشد</span>
                 </div>
             </div>
@@ -42,15 +41,11 @@
                         <% } %>
                     </select>
                 </div>
-                <!-- <div class="form-add-product__cell">
-                    <label for="id-category">دسته بندی: </label>
-                    <select name="category" class="custom-select" id="id-category">
-                        <option value=" ">---</option>
-                        <% for (let category of categories){ %>
-                            <option value="<%=category%>"><%= category %></option>
-                        <% } %>
-                    </select>
-                </div> -->
+                <div class="form-add-product__cell">
+                    <label for="unit">واحد شمارش: </label>
+                    <input type="text" class="form-input" autocomplete="off" name="unit" id="unit">
+                </div>
+                
             </div>
             <div class="form-add-product__row d-flex flex-column flex-lg-row">
                 <div class="form-add-product__cell">
@@ -84,6 +79,7 @@
                     <label class="custom-control-label" for="callOrderOnly">فقط  سفارش تلفنی</label>
                 </div>
             </div>
+            <input type="hidden" name="_csrf" value= "<%= csrfToken %>">
             <div class="form-add-product__row p-3">
                 <p >انتخاب رنگ بندی:</p>
                 <div class="d-flex flex-wrap">
@@ -120,7 +116,7 @@
                     <div class="more-info-adder-group">
                         <div class="more-info-adder">
                             <span class="more-info__label">عنوان: </span>
-                            <input type="text" maxlength="50" autocomplete="off"id="info-title">
+                            <input type="text" maxlength="50" autocomplete="off" id="info-title">
                         </div>
                         <div class="more-info-adder"> 
                             <span class="more-info__label">مقدار: </span>
@@ -135,19 +131,45 @@
                             <div class="more-info-table__header third-col bg-dark">-</div>
                         </div>
                     </div>
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" name="captcha" value="">
-                    <div class="form-add-product__btn-group">
-                        <button class="btn btn-primary submit-btn" type="submit">ذخیره</button>
-                        <a href="/admin">
-                            <button class="btn btn-secondary cancel-btn">لغو</button>
-                        </a>
+                    
+                    
+                </div>
+            </div>
+            <div class="form-add-product__row">
+                <a href="/admin">
+                    <button class="btn btn-secondary cancel-btn">لغو</button>
+                </a>
+            </div>
+            <button class="btn btn-primary submit-btn" type="submit"> ذخیره </button>
+            <input type="hidden" name="mainPicName" value="pic0">
+        </form>
+    </main>
+    <div class="modal fade" id="pictureModal" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
+        <div class="modal-dialog signin-modal modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pictureModalTitle"></h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                    <div class="container-fluid p-3">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn btn-info" type="button" onclick="trigger();">افزودن عکس</button>
+                            <input type="file" id="pic-btn" oninput="preview(this);" accept=".jpg, .jpeg, .png, .gif">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap" id="modalContainer">
+
                     </div>
                 </div>
             </div>
-        </form>
-        
-    </main>
+            
+        </div>
+      </div>
+    </div>
     <script src="/js/jquery-slim.js"></script>
     <script src="/js/add-product.js"></script>
     <script src="/js/bootstrap.min4.5.js"></script>

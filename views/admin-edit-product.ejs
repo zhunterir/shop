@@ -13,30 +13,29 @@
     <title>add-product</title>
 </head>
 <body>
-    
-   <%- include('./admin-nav', {'categories':categories, 'path': path}) %> <main class="main-content">
+    <input type="hidden" id="informations" value="<%= JSON.stringify(product.moreInfo) %>">
+    <input type="hidden" id="images" value="<%= JSON.stringify(product.imgUrl)%>">
+    <%- include('./admin-nav', {'categories':categories, 'path': path}) %> <main class="main-content">
         <div class="d-flex p-3 border-bottom">
             <h5><%= action=='view'? 'مشاهده کالا':  'تغییر اطلاعات کالا' %></h5>
-                <% if (action=="edit") { %>
-
-            <form method="POST" class="mr-auto" action="/admin/products/delete">
+            <% if (action=="edit") { %>
+                
+                <form method="POST" class="mr-auto" action="/admin/products/delete">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="id" value="<%= product.id %>">
-                    <button class="btn btn-danger">حذف محصول از فروشگاه</button>
-            </form>
+                    <button class="btn btn-danger" type="submit">حذف محصول از فروشگاه</button>
+                </form>
                 <% } %>
-
-        </div>
-        <form action="/admin/products/edit?id=<%=product.id%>" method="POST" class="form-add-product "  enctype="multipart/form-data">
-            <% if(error){ %>
+            </div>
+        <form action="/admin/products/edit?id=<%=product.id%>&_csrf=<%=csrfToken%>" method="POST" id="form" class="form-add-product "  enctype="multipart/form-data">
+                <input type="hidden" name="mainPicID" value=''>
+            <% if (error) { %>
                 <p style='color:red;font-weight:bold; background-color: rgb(255, 255, 255);padding: 10px; text-align: auto;'>دوباره امتحان کنید</p>  
             <% } %>
             <div class="form-add-product__row">
                 <div class=" product-image-container mt-2">
-                    <img src="<%=product.imgUrl %>"class="pic-preview" id="mirror" alt="">
                     <div class="upload-btn-wrapper">
-                        <button class="btn btn-info" <%= action=='view'? 'disabled':'' %> type="button" onclick="trigger();">افزودن عکس</button>
-                        <input type="file" id="pic-btn" onchange="preview(this);" accept=".jpg, .jpeg, .png, .gif" name="picture" >
+                        <button class="btn ml-auto btn-success m-3" type="button" data-target="#pictureModal" data-toggle="modal" <%= action=='view'? 'disabled' : '' %>>افزودن عکس</button>
                     </div>
                     <span id='id-image-invalid-text'>عکس با فرمت های jpeg , jpg, png یا gif مجاز می باشد</span>
                 </div>
@@ -58,6 +57,10 @@
                             <option value="<%=category%>"><%= category %></option> <% } %>
                         <% } %>
                     </select>
+                </div>
+                <div class="form-add-product__cell">
+                    <label for="unit">واحد شمارش: </label>
+                    <input type="text" class="form-input" autocomplete="off" name="unit" id="unit">
                 </div>
             </div>
             <div class="form-add-product__row d-flex flex-column flex-lg-row">
@@ -133,23 +136,8 @@
                             <div class="more-info-table__header second-col">مقدار</div>
                             <div class="more-info-table__header third-col">-</div>
                         </div>
-                        <% let counter =0 ; %>
-                        <% for (let info of product.moreInfo) { %>
-                            <div class="more-info-table__row">
-                                <div class="more-info-table__value first-col">
-                                    <input type="text" class="title-info" name='infoTitle<%= counter %>' value='<%= info.title %>' <%= action=='view'? 'disabled':'' %>>
-                                </div>
-                                <div class="more-info-table__value second-col">
-                                    <input type="text" class="value-info" name='valueTitle<%= counter %>' value='<%= info.value %>' <%= action=='view'? 'disabled':'' %>>
-                                </div>
-                                <div class="third-col">
-                                    <button type="button" onclick="deleteRow(this);" <%= action=='view'? 'disabled':'' %> class='btn info-delete-btn'>حذف</button>
-                                </div>
-                            </div>
-                        <% counter+=1; }
-                            %>
+                        
                     </div>
-                    <!-- <input type="hidden" name="productID" value="<%= product.id %>"> -->
                 </div>
             </div>
             <div class="form-add-product__row">
@@ -160,6 +148,8 @@
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="captcha" value="" <%= action=='view'? 'disabled':'' %>>
+            <input type="hidden" name="mainPicName" value="<%= product.mainPicName %>">
+            <input type="hidden" name="toDeletePics" value="[]">
             <% if (action=='view') { %>
                 <a href="/admin/products/edit/<%=product.id%>" class=" btn change-info-btn btn-danger">تغییر اطلاعات کالا</a>
             <% } else { %>
@@ -172,8 +162,34 @@
             <% } %>
         </form>
     </main>
+    <div class="modal fade" id="pictureModal" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
+        <div class="modal-dialog signin-modal modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pictureModalTitle"></h5>
+              <button type="button" class="close mr-auto p-2 ml-0" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                    <div class="container-fluid p-3">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn btn-info" type="button" onclick="trigger();">افزودن عکس</button>
+                            <input type="file" id="pic-btn" oninput="preview(this);" accept=".jpg, .jpeg, .png, .gif">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap" id="modalContainer">
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
     <script src="/js/jquery-slim.js"></script>
-    <script src="/js/add-product.js"></script>
+    <script src="/js/edit-product.js"></script>
     <script src="/js/bootstrap.min4.5.js"></script>
 </body>
 </html>
